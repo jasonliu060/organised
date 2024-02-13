@@ -1,1 +1,53 @@
+/* .days, .week {
+  display: flex;
+  flex-wrap: wrap;
+  width: 414px;
+}
 
+.day, .datesContainer {
+  flex: 14%;
+  text-align: center;
+}
+
+.date{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.date:hover{
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.week:hover{
+  border: 1px solid black;
+  border-radius: 10px;
+} */
+
+.days, .week {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  width: 414px;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  border: 1px solid transparent;
+}
+
+.date{
+  display: inline-block;
+  width: 20px;
+  border: 1px solid transparent;
+}
+
+.date:hover{
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.week:hover:not(:has(.date:hover)){
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+}
