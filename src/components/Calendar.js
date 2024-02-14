@@ -12,7 +12,24 @@ export default function Calendar() {
   const [daySwitcher, setDaySwitcher] = useState(false);
 
 
-  function switchToDay(index, dateNumber){
+  function switchMonthToDay(element, index, dateNumber){
+    element.stopPropagation();
+    if (index < 7 && dateNumber > 20){
+      // date.setFullYear(date.getFullYear(), date.getMonth() - 1, dateNumber)
+      setDate(new Date(date.getFullYear(), date.getMonth() - 1, dateNumber));
+    } else if (index > 30 && dateNumber < 7){
+      // date.setFullYear(date.getFullYear(), date.getMonth() + 1, dateNumber)
+      setDate(new Date(date.getFullYear(), date.getMonth() + 1, dateNumber));
+    } else {
+      // date.setFullYear(date.getFullYear(), date.getMonth(), dateNumber)
+      setDate(new Date(date.getFullYear(), date.getMonth(), dateNumber));
+    }
+    setMonthSwitcher(false);
+    setWeekSwitcher(false);
+    setDaySwitcher(true);
+  }
+
+  function switchMonthToWeek(index, dateNumber){
     if (index < 7 && dateNumber > 20){
       // date.setFullYear(date.getFullYear(), date.getMonth() - 1, dateNumber)
       setDate(new Date(date.getFullYear(), date.getMonth() - 1, dateNumber));
@@ -25,15 +42,42 @@ export default function Calendar() {
     }
     console.log(date);
     setMonthSwitcher(false);
+    setWeekSwitcher(true);
+    setDaySwitcher(false);
+  }
+
+  function switchWeekToDay(index){
+    setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + index));
+    setMonthSwitcher(false);
     setWeekSwitcher(false);
     setDaySwitcher(true);
   }
 
+  function switchDayToMonth(){
+    setMonthSwitcher(true);
+    setWeekSwitcher(false);
+    setDaySwitcher(false);
+  }
+
+  function switchDayToWeek(){
+    setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay()));
+    console.log(date);
+    setMonthSwitcher(false);
+    setWeekSwitcher(true);
+    setDaySwitcher(false);
+  }
+
+  function switchWeekToMonth(){
+    setMonthSwitcher(true);
+    setWeekSwitcher(false);
+    setDaySwitcher(false);
+  }
+
   return (
     <div>Calendar
-      {monthSwitcher && <Monthschedule switchToDay={switchToDay} date={date}/>}
-      {weekSwitcher && <Weekschedule date={date}/>}
-      {daySwitcher && <Dayschedule date={date}/>}
+      {monthSwitcher && <Monthschedule switchMonthToDay={switchMonthToDay} switchMonthToWeek={switchMonthToWeek} date={date}/>}
+      {weekSwitcher && <Weekschedule switchWeekToDay={switchWeekToDay} switchWeekToMonth={switchWeekToMonth} date={date}/>}
+      {daySwitcher && <Dayschedule date={date} switchDayToWeek={switchDayToWeek} switchDayToMonth={switchDayToMonth}/>}
     </div>
   )
 }

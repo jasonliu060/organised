@@ -1,7 +1,7 @@
 import '../App.css';
 import { useState } from 'react';
 
-export default function Dayschedule({date}) {
+export default function Dayschedule({date, switchDayToWeek, switchDayToMonth}) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -29,12 +29,14 @@ export default function Dayschedule({date}) {
       <div>
         <button onClick={getLastDate}>Last</button>
         <button onClick={getNextDate}>Next</button>
+        <button onClick={switchDayToWeek}>Back to Week</button>
+        <button onClick={switchDayToMonth}>Back to Month</button>
+      </div>
+      <div className="days">
+        <span className='day'>{theDay}</span>
       </div>
       <div className="dates">
-        <span className='date'>{theDay}</span>
-      </div>
-      <div className="dates">
-        <span className='date'>{theDate}</span>
+        <span>{theDate}</span>
       </div>
     </>
   )

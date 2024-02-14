@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // new date object (for example: 06 Feb 2024)
 
-export default function Monthschedule({ date, switchToDay }) {
+export default function Monthschedule({ date, switchMonthToDay, switchMonthToWeek }) {
   // const today = new Date();
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -90,39 +90,39 @@ export default function Monthschedule({ date, switchToDay }) {
         <span className='day'>Fri</span>
         <span className='day'>Sat</span>
       </div>
-      <div className="week">{dates.map((e, index) => (
+      <div className="week"  onClick={() => switchMonthToWeek(0, dates[0])}>{dates.map((e, index) => (
         <div className='dateContainer' key={index}>
-          <span className='date' onClick={() => switchToDay(index, dates[index])}>{e}</span>
+          <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index])}>{e}</span>
         </div>
       )).filter((e, index) => index < 7)}
       </div>
-      <div className="week">{dates.map((e, index) => (
+      <div className="week" onClick={() => switchMonthToWeek(7, dates[7])}>{dates.map((e, index) => (
         <div className='dateContainer' key={index}>
-          <span className='date'>{e}</span>
+          <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index])}>{e}</span>
         </div>
       )).filter((e, index) => index > 6 && index < 14)}
       </div>
-      <div className="week">{dates.map((e, index) => (
+      <div className="week" onClick={() => switchMonthToWeek(14, dates[14])}>{dates.map((e, index) => (
         <div className='dateContainer' key={index}>
-          <span className='date'>{e}</span>
+          <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index])}>{e}</span>
         </div>
       )).filter((e, index) => index > 13 && index < 21)}
       </div>
-      <div className="week">{dates.map((e, index) => (
+      <div className="week" onClick={() => switchMonthToWeek(21, dates[21])}>{dates.map((e, index) => (
         <div className='dateContainer' key={index}>
-          <span className='date'>{e}</span>
+          <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index])}>{e}</span>
         </div>
       )).filter((e, index) => index > 20 && index < 28)}
       </div>
-      <div className="week">{dates.map((e, index) => (
+      <div className="week" onClick={() => switchMonthToWeek(28, dates[28])}>{dates.map((e, index) => (
         <div className='dateContainer' key={index}>
-          <span className='date'>{e}</span>
+          <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index])}>{e}</span>
         </div>
       )).filter((e, index) => index > 27 && index < 35)}
       </div>
-      <div className="week">{dates.map((e, index) => (
+      <div className="week" onClick={() => switchMonthToWeek(35, dates[35])}>{dates.map((e, index) => (
         <div className='dateContainer' key={index}>
-          <span className='date'>{e}</span>
+          <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index])}>{e}</span>
         </div>
       )).filter((e, index) => index > 34 && index < 42)}
       </div>

@@ -40,6 +40,13 @@
   border: 1px solid transparent;
 }
 
+.dates{
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  width: 414px;
+  text-align: center;
+}
+
 .date:hover{
   border: 1px solid black;
   border-radius: 10px;

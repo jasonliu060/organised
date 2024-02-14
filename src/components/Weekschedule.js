@@ -1,7 +1,7 @@
 import '../App.css';
 import { useState } from 'react';
 
-export default function Weekschedule({ date }) {
+export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth }) {
   let dateOfSun = 0;
   let monthOfSun = 0;
   let yearOfSun = 0;
@@ -40,7 +40,7 @@ export default function Weekschedule({ date }) {
       for (let i = dateOfSun; i < dateOfSun + (7 - dateOfSat); i++) {
         calendarDates.push(i);
       }
-      for (let i = 1; i < dateOfSat; i++) {
+      for (let i = 1; i < dateOfSat + 1; i++) {
         calendarDates.push(i);
       }
     } else {
@@ -77,17 +77,19 @@ export default function Weekschedule({ date }) {
       <div>
         <button onClick={getDatesOfLast}>Last</button>
         <button onClick={getDatesOfNext}>Next</button>
+        <button onClick={switchWeekToMonth}>Back to Month</button>
       </div>
-      <div className="dates">
-        <span className='date'>Sun</span>
-        <span className='date'>Mon</span>
-        <span className='date'>Tue</span>
-        <span className='date'>Wed</span>
-        <span className='date'>Thu</span>
-        <span className='date'>Fri</span>
-        <span className='date'>Sat</span>
+      <div className="days">
+        <span className='day'>Sun</span>
+        <span className='day'>Mon</span>
+        <span className='day'>Tue</span>
+        <span className='day'>Wed</span>
+        <span className='day'>Thu</span>
+        <span className='day'>Fri</span>
+        <span className='day'>Sat</span>
       </div>
-      <div className="dates">{dates.map((e, index) => (<span className='date' key={index}>{e}</span>))}</div>
+      <div className="days">{dates.map((e, index) => (
+      <div className='dateContainer' key={index}><span className='date' onClick={() => switchWeekToDay(index)} key={index}>{e}</span></div>))}</div>
     </>
   )
 }
