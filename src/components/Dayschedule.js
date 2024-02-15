@@ -1,23 +1,31 @@
 import '../App.css';
-import { useState } from 'react';
+// import { useState } from 'react';
 
-export default function Dayschedule({date, switchDayToWeek, switchDayToMonth}) {
+export default function Dayschedule({ date, switchDayToWeek, switchDayToMonth, events, setDate}) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const [theDate, setTheDate] = useState(date.getDate());
-  const [theDay, setTheDay] = useState(days[date.getDay()]);
+  let theDate = date.getDate();
+  let theDay = days[date.getDay()];
 
-  function getLastDate(){
-    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 1);
-    setTheDate(date.getDate());
-    setTheDay(days[date.getDay()]);
+  const offset = date.getTimezoneOffset()
+  date = new Date(date.getTime() - (offset*60*1000))
+  let dateString = date.toISOString().split('T')[0];
+  const matchedEvents = events.filter((e) => e.date === dateString);
+  // const matchedEvents = events.filter((e) => e.date === dateString);
+  console.log(matchedEvents, dateString, date);
+
+
+  function getLastDate() {
+    setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1))
+    theDate = date.getDate();
+    theDay = days[date.getDay()];
   }
 
-  function getNextDate(){
-    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 1);
-    setTheDate(date.getDate());
-    setTheDay(days[date.getDay()]);
+  function getNextDate() {
+    setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1))
+    theDate = date.getDate();
+    theDay = days[date.getDay()];
   }
 
   return (
@@ -37,6 +45,9 @@ export default function Dayschedule({date, switchDayToWeek, switchDayToMonth}) {
       </div>
       <div className="dates">
         <span>{theDate}</span>
+      </div>
+      <div>
+        {JSON.stringify(matchedEvents)}
       </div>
     </>
   )

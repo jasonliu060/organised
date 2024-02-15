@@ -4,7 +4,7 @@ import Dayschedule from "./Dayschedule"
 import { useState } from 'react';
 
 
-export default function Calendar() {
+export default function Calendar({events}) {
   const [date, setDate] = useState(new Date());
 
   const [monthSwitcher, setMonthSwitcher] = useState(true);
@@ -77,7 +77,7 @@ export default function Calendar() {
     <div>Calendar
       {monthSwitcher && <Monthschedule switchMonthToDay={switchMonthToDay} switchMonthToWeek={switchMonthToWeek} date={date}/>}
       {weekSwitcher && <Weekschedule switchWeekToDay={switchWeekToDay} switchWeekToMonth={switchWeekToMonth} date={date}/>}
-      {daySwitcher && <Dayschedule date={date} switchDayToWeek={switchDayToWeek} switchDayToMonth={switchDayToMonth}/>}
+      {daySwitcher && <Dayschedule date={date} switchDayToWeek={switchDayToWeek} switchDayToMonth={switchDayToMonth} events={events} setDate={setDate}/>}
     </div>
   )
 }
