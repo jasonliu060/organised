@@ -1,7 +1,9 @@
 import '../App.css';
 // import { useState } from 'react';
 
-export default function Dayschedule({ date, switchDayToWeek, switchDayToMonth, events, setDate}) {
+export default function Dayschedule({ date, switchDayToWeek, switchDayToMonth, events, setDate }) {
+  const today = new Date();
+
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -9,7 +11,7 @@ export default function Dayschedule({ date, switchDayToWeek, switchDayToMonth, e
   let theDay = days[date.getDay()];
 
   const offset = date.getTimezoneOffset()
-  date = new Date(date.getTime() - (offset*60*1000))
+  date = new Date(date.getTime() - (offset * 60 * 1000))
   let dateString = date.toISOString().split('T')[0];
   const matchedEvents = events.filter((e) => e.date === dateString);
   // const matchedEvents = events.filter((e) => e.date === dateString);
@@ -43,9 +45,16 @@ export default function Dayschedule({ date, switchDayToWeek, switchDayToMonth, e
       <div className="days">
         <span className='day'>{theDay}</span>
       </div>
-      <div className="dates">
-        <span>{theDate}</span>
-      </div>
+      {today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && date.getDate() === today.getDate() ?
+        <div className="dates">
+          <div className='dateContainer'>
+            <span className="date date-today">{theDate}</span>
+          </div></div> :
+        <div className="dates">
+          <div className='dateContainer'>
+            <span className='date'>{theDate}</span>
+          </div></div>
+      }
       <div>
         {JSON.stringify(matchedEvents)}
       </div>

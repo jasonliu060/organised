@@ -2,18 +2,21 @@ import '../App.css';
 import { useState } from 'react';
 
 export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth }) {
+  const today = new Date();
+
+
   let dateOfSun = 0;
   let monthOfSun = 0;
   let yearOfSun = 0;
   let dateOfSat = 0;
   let monthOfSat = 0;
   let yearOfSat = 0;
-  
+
   const [dates, setDates] = useState(getDates());
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  function setParameter(){
+  function setParameter() {
     let yearOfDate = date.getFullYear();
     let monthOfDate = date.getMonth();
     let dateOfDate = date.getDate();
@@ -34,21 +37,43 @@ export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth 
     date.setFullYear(yearOfDate, monthOfDate, dateOfDate)
   }
 
-  function generateDatesArray(){
+  function generateDatesArray() {
     const calendarDates = [];
     if (dateOfSat < 7) {
       for (let i = dateOfSun; i < dateOfSun + (7 - dateOfSat); i++) {
-        calendarDates.push(i);
+        calendarDates.push({
+          dateNumber: i,
+          monthIndicator: 0,
+          isToday: false
+        });
       }
       for (let i = 1; i < dateOfSat + 1; i++) {
-        calendarDates.push(i);
+        calendarDates.push({
+          dateNumber: i,
+          monthIndicator: 1,
+          isToday: false
+        });
       }
     } else {
       for (let i = dateOfSun; i < dateOfSat + 1; i++) {
-        calendarDates.push(i);
+        calendarDates.push({
+          dateNumber: i,
+          monthIndicator: 1,
+          isToday: false
+        });
       }
     }
-    return calendarDates
+    const newCalendarDates = calendarDates.map((e) => {
+      if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && e.monthIndicator === 1 && e.dateNumber === today.getDate()) {
+        return ({
+          ...e,
+          isToday: true
+        })
+      } else {
+        return e
+      }
+    })
+    return newCalendarDates
   }
 
   function getDates() {
@@ -56,13 +81,13 @@ export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth 
     return generateDatesArray();
   }
 
-  function getDatesOfLast(){
+  function getDatesOfLast() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 7);
     setParameter();
     setDates(generateDatesArray());
   }
 
-  function getDatesOfNext(){
+  function getDatesOfNext() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 7);
     setParameter();
     setDates(generateDatesArray());
@@ -88,8 +113,23 @@ export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth 
         <span className='day'>Fri</span>
         <span className='day'>Sat</span>
       </div>
-      <div className="days">{dates.map((e, index) => (
-      <div className='dateContainer' key={index}><span className='date' onClick={() => switchWeekToDay(index)} key={index}>{e}</span></div>))}</div>
+      <div className="days">{dates.map((e, index) => {
+        if (e.isToday === true) {
+          return (
+            <div className='dateContainer' key={index}>
+              <span className='date date-today' onClick={() => switchWeekToDay(index)} key={index}>{e.dateNumber}</span>
+            </div>
+          )
+        } else {
+          return (
+            <div className='dateContainer' key={index}>
+              <span className='date' onClick={() => switchWeekToDay(index)} key={index}>{e.dateNumber}</span>
+            </div>
+          )
+        }
+
+      })}
+      </div>
     </>
   )
 }
