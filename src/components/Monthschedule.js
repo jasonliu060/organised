@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // new date object (for example: 06 Feb 2024)
 
-export default function Monthschedule({ date, switchMonthToDay, switchMonthToWeek }) {
+export default function Monthschedule({ date, switchMonthToSelectedWeek, switchMonthToSelectedDay }) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const today = new Date();
@@ -75,38 +75,45 @@ export default function Monthschedule({ date, switchMonthToDay, switchMonthToWee
     return newCalendarDates
   }
 
-  function getDatesOfLast() {
-    // set date object 01/month-1/year, for example: 01/01/2024
-    date.setFullYear(date.getFullYear(), date.getMonth() - 1, 1);
-
-    getParameter();
-    setDates(generateDatesArray());
-  }
-
-  function getDatesOfNext() {
-    // set date object 01/month+1/year, for example: 01/01/2024
-    date.setFullYear(date.getFullYear(), date.getMonth() + 1, 1);
-
-    getParameter();
-    setDates(generateDatesArray());
-  }
-
   function getDates() {
     getParameter();
     return generateDatesArray()
   }
 
-
   const weekQuantity = dates.length / 7
-  console.log(weekQuantity);
+
+  // controller functions
+  function toNext(){
+    // set date object 01/month+1/year, for example: 01/01/2024
+    date.setFullYear(date.getFullYear(), date.getMonth() + 1, 1);
+    getParameter();
+    setDates(generateDatesArray());
+  }
+
+  function toLast(){
+    // set date object 01/month-1/year, for example: 01/01/2024
+    date.setFullYear(date.getFullYear(), date.getMonth() - 1, 1);
+    getParameter();
+    setDates(generateDatesArray());
+  }
+
+  function toToday(){
+    date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
+    getParameter();
+    setDates(generateDatesArray());
+  }
 
   return (
     <>
-      <div>Month Schedule</div>
+      <div>
+      <button onClick={toLast}>Last</button>
+      <button onClick={toNext}>Next</button>
+      <button onClick={toToday}>Today</button>
+      <input type="date" name="date"/>
+    </div>
       <div>
         {months[date.getMonth()]} {date.getFullYear()}
       </div>
-      <button onClick={getDatesOfLast}>Last</button><button onClick={getDatesOfNext}>Next</button>
       <div className="days">
         <span className='day'>Sun</span>
         <span className='day'>Mon</span>
@@ -116,137 +123,66 @@ export default function Monthschedule({ date, switchMonthToDay, switchMonthToWee
         <span className='day'>Fri</span>
         <span className='day'>Sat</span>
       </div>
-      <div className="week" onClick={() => switchMonthToWeek(0, dates[0].dateNumber)}>{dates.map((e, index) => {
-        if (e.isToday === true) {
-          return (
+      <div className="week" onClick={() => switchMonthToSelectedWeek(0, dates[0].dateNumber)}>{dates.map((e, index) => (
             <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              {e.monthIndicator === 1 ?
+                <span className={e.isToday ? 'date date-today' : 'date'} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span> :
+                <span className='date date-grey' onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              }
             </div>
           )
-        } else if (e.monthIndicator !== 1){
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date date-grey' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        } else {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        }
-      }).filter((e, index) => index < 7)}
+      ).filter((e, index) => index < 7)}
       </div>
-      <div className="week" onClick={() => switchMonthToWeek(7, dates[7].dateNumber)}>{dates.map((e, index) => {
-        if (e.isToday === true) {
-          return (
+      <div className="week" onClick={() => switchMonthToSelectedWeek(7, dates[7].dateNumber)}>{dates.map((e, index) => (
             <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              {e.monthIndicator === 1 ?
+                <span className={e.isToday ? 'date date-today' : 'date'} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span> :
+                <span className='date date-grey' onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              }
             </div>
           )
-        } else if (e.monthIndicator !== 1){
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date date-grey' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        } else {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        }
-      }).filter((e, index) => index > 6 && index < 14)}
+      ).filter((e, index) => index > 6 && index < 14)}
       </div>
-      <div className="week" onClick={() => switchMonthToWeek(14, dates[14].dateNumber)}>{dates.map((e, index) => {
-        if (e.isToday === true) {
-          return (
+      <div className="week" onClick={() => switchMonthToSelectedWeek(14, dates[14].dateNumber)}>{dates.map((e, index) => (
             <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              {e.monthIndicator === 1 ?
+                <span className={e.isToday ? 'date date-today' : 'date'} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span> :
+                <span className='date date-grey' onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              }
             </div>
           )
-        } else if (e.monthIndicator !== 1){
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date date-grey' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        } else {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        }
-      }).filter((e, index) => index > 13 && index < 21)}
+      ).filter((e, index) => index > 13 && index < 21)}
       </div>
-      <div className="week" onClick={() => switchMonthToWeek(21, dates[21].dateNumber)}>{dates.map((e, index) => {
-        if (e.isToday === true) {
-          return (
+      <div className="week" onClick={() => switchMonthToSelectedWeek(21, dates[21].dateNumber)}>{dates.map((e, index) => (
             <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              {e.monthIndicator === 1 ?
+                <span className={e.isToday ? 'date date-today' : 'date'} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span> :
+                <span className='date date-grey' onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              }
             </div>
           )
-        } else if (e.monthIndicator !== 1){
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date date-grey' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        } else {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        }
-      }).filter((e, index) => index > 20 && index < 28)}
+      ).filter((e, index) => index > 20 && index < 28)}
       </div>
-      {weekQuantity > 4 && <div className="week" onClick={() => switchMonthToWeek(28, dates[28].dateNumber)}>{dates.map((e, index) => {
-        if (e.isToday === true) {
-          return (
+      {weekQuantity > 4 && <div className="week" onClick={() => switchMonthToSelectedWeek(28, dates[28].dateNumber)}>{dates.map((e, index) => (
             <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              {e.monthIndicator === 1 ?
+                <span className={e.isToday ? 'date date-today' : 'date'} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span> :
+                <span className='date date-grey' onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              }
             </div>
           )
-        } else if (e.monthIndicator !== 1){
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date date-grey' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        } else {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        }
-      }).filter((e, index) => index > 27 && index < 35)}
+      ).filter((e, index) => index > 27 && index < 35)}
       </div>}
-      {weekQuantity > 5 && <div className="week" onClick={() => switchMonthToWeek(35, dates[35].dateNumber)}>{dates.map((e, index) => {
-        if (e.isToday === true) {
-          return (
+      {weekQuantity > 5 &&
+      <div className="week" onClick={() => switchMonthToSelectedWeek(35, dates[35].dateNumber)}>{dates.map((e, index) => (
             <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              {e.monthIndicator === 1 ?
+                <span className={e.isToday ? 'date date-today' : 'date'} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span> :
+                <span className='date date-grey' onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
+              }
             </div>
           )
-        } else if (e.monthIndicator !== 1){
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date date-grey' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        } else {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date' onClick={(element) => switchMonthToDay(element, index, dates[index].dateNumber)}>{e.dateNumber}</span>
-            </div>
-          )
-        }
-      }).filter((e, index) => index > 34 && index < 42)}
+      ).filter((e, index) => index > 34 && index < 42)}
       </div>}
     </>
   )

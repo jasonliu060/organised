@@ -6,13 +6,14 @@ import { useState } from 'react';
 
 export default function Calendar({events}) {
   const [date, setDate] = useState(new Date());
+  
 
   const [monthSwitcher, setMonthSwitcher] = useState(true);
   const [weekSwitcher, setWeekSwitcher] = useState(false);
   const [daySwitcher, setDaySwitcher] = useState(false);
 
 
-  function switchMonthToDay(element, index, dateNumber){
+  function switchMonthToSelectedDay(element, index, dateNumber){
     element.stopPropagation();
     if (index < 7 && dateNumber > 20){
       // date.setFullYear(date.getFullYear(), date.getMonth() - 1, dateNumber)
@@ -29,7 +30,7 @@ export default function Calendar({events}) {
     setDaySwitcher(true);
   }
 
-  function switchMonthToWeek(index, dateNumber){
+  function switchMonthToSelectedWeek(index, dateNumber){
     if (index < 7 && dateNumber > 20){
       // date.setFullYear(date.getFullYear(), date.getMonth() - 1, dateNumber)
       setDate(new Date(date.getFullYear(), date.getMonth() - 1, dateNumber));
@@ -46,38 +47,21 @@ export default function Calendar({events}) {
     setDaySwitcher(false);
   }
 
-  function switchWeekToDay(index){
+  function switchWeekToSelectedDay(index){
     setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + index));
     setMonthSwitcher(false);
     setWeekSwitcher(false);
     setDaySwitcher(true);
   }
 
-  function switchDayToMonth(){
-    setMonthSwitcher(true);
-    setWeekSwitcher(false);
-    setDaySwitcher(false);
-  }
-
-  function switchDayToWeek(){
-    setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay()));
-    console.log(date);
-    setMonthSwitcher(false);
-    setWeekSwitcher(true);
-    setDaySwitcher(false);
-  }
-
-  function switchWeekToMonth(){
-    setMonthSwitcher(true);
-    setWeekSwitcher(false);
-    setDaySwitcher(false);
-  }
 
   return (
     <div>Calendar
-      {monthSwitcher && <Monthschedule switchMonthToDay={switchMonthToDay} switchMonthToWeek={switchMonthToWeek} date={date}/>}
-      {weekSwitcher && <Weekschedule switchWeekToDay={switchWeekToDay} switchWeekToMonth={switchWeekToMonth} date={date}/>}
-      {daySwitcher && <Dayschedule date={date} switchDayToWeek={switchDayToWeek} switchDayToMonth={switchDayToMonth} events={events} setDate={setDate}/>}
+      {monthSwitcher && <Monthschedule switchMonthToSelectedDay={switchMonthToSelectedDay} switchMonthToSelectedWeek={switchMonthToSelectedWeek} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+
+      {weekSwitcher && <Weekschedule switchWeekToSelectedDay={switchWeekToSelectedDay} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+
+      {daySwitcher && <Dayschedule date={date}  events={events} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
     </div>
   )
 }

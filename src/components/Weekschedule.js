@@ -1,7 +1,7 @@
 import '../App.css';
 import { useState } from 'react';
 
-export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth }) {
+export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, switchWeekToSelectedDay }) {
   const today = new Date();
 
 
@@ -16,7 +16,7 @@ export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth 
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  function setParameter() {
+  function getParameter() {
     let yearOfDate = date.getFullYear();
     let monthOfDate = date.getMonth();
     let dateOfDate = date.getDate();
@@ -77,33 +77,51 @@ export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth 
   }
 
   function getDates() {
-    setParameter();
+    getParameter();
     return generateDatesArray();
   }
 
-  function getDatesOfLast() {
-    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 7);
-    setParameter();
+  // controller functions
+  function toNext(){
+    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 7);
+    getParameter();
     setDates(generateDatesArray());
   }
 
-  function getDatesOfNext() {
-    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 7);
-    setParameter();
+  function toLast(){
+    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 7);
+    getParameter();
     setDates(generateDatesArray());
+  }
+
+  function toToday(){
+    date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
+    getParameter();
+    setDates(generateDatesArray());
+  }
+
+  function toMonth(){
+    if (date.getFullYear() === today.getFullYear && date.getMonth() === today.getMonth()){
+      setDate(new Date (today.getFullYear(), today.getMonth(), today.getDate()));
+    }
+    setMonthSwitcher(true);
+    setWeekSwitcher(false);
+    setDaySwitcher(false);
   }
 
   return (
     <>
-      <div>Week Schedule</div>
+      <div>
+      <button onClick={toLast}>Last</button>
+      <button onClick={toNext}>Next</button>
+      <button onClick={toToday}>Today</button>
+      <button onClick={toMonth}>Back to Month</button>
+      <input type="date" name="date"/>
+    </div>
       <div>
         {dateOfSun} {months[monthOfSun]} {yearOfSun} ~ {dateOfSat} {months[monthOfSat]} {yearOfSat}
       </div>
-      <div>
-        <button onClick={getDatesOfLast}>Last</button>
-        <button onClick={getDatesOfNext}>Next</button>
-        <button onClick={switchWeekToMonth}>Back to Month</button>
-      </div>
+
       <div className="days">
         <span className='day'>Sun</span>
         <span className='day'>Mon</span>
@@ -117,13 +135,13 @@ export default function Weekschedule({ date, switchWeekToDay, switchWeekToMonth 
         if (e.isToday === true) {
           return (
             <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={() => switchWeekToDay(index)} key={index}>{e.dateNumber}</span>
+              <span className='date date-today' onClick={() => switchWeekToSelectedDay(index)} key={index}>{e.dateNumber}</span>
             </div>
           )
         } else {
           return (
             <div className='dateContainer' key={index}>
-              <span className='date' onClick={() => switchWeekToDay(index)} key={index}>{e.dateNumber}</span>
+              <span className='date' onClick={() => switchWeekToSelectedDay(index)} key={index}>{e.dateNumber}</span>
             </div>
           )
         }
