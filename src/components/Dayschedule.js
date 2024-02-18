@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../App.css';
 // import { useState } from 'react';
 
@@ -8,23 +9,31 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  // const offset = date.getTimezoneOffset()
-  // date = new Date(date.getTime() - (offset * 60 * 1000))
-  // let dateString = date.toISOString().split('T')[0];
-  // const matchedEvents = events.filter((e) => e.date === dateString);
-  console.log(date);
+  const offset = date.getTimezoneOffset()
+  const offsetDate = new Date(date.getTime() - (offset * 60 * 1000));
+  const dateString = offsetDate.toISOString().split('T')[0];
+  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => e.date === dateString));
+  console.log(matchedEvents, date, offsetDate, dateString);
 
-  // controller functions
-  function toNext() {
-    setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1))
-  }
-
+  // controller function
   function toLast() {
-    setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1))
+    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+    const offsetDateLast = new Date(date.getTime() - (offset * 60 * 1000));
+    let dateStringLast = offsetDateLast.toISOString().split('T')[0]
+    setMatchedEvents(events.filter((e) => e.date === dateStringLast));
   }
+
+  function toNext() {
+    date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+    const offsetDateLast = new Date(date.getTime() - (offset * 60 * 1000));
+    let dateStringLast = offsetDateLast.toISOString().split('T')[0]
+    setMatchedEvents(events.filter((e) => e.date === dateStringLast));
+  }
+
 
   function toToday() {
     setDate(new Date(today.getFullYear(), today.getMonth(), today.getDate()))
+    setMatchedEvents(events.filter((e) => e.date === dateString));
   }
 
   function toMonth() {
@@ -67,7 +76,7 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
           </div></div>
       }
       <div>
-        {JSON.stringify()}
+        {JSON.stringify(matchedEvents)}
       </div>
     </>
   )
