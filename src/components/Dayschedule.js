@@ -32,8 +32,10 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
 
 
   function toToday() {
-    setDate(new Date(today.getFullYear(), today.getMonth(), today.getDate()))
-    setMatchedEvents(events.filter((e) => e.date === dateString));
+    date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
+    const offsetDateToday = new Date(date.getTime() - (offset * 60 * 1000));
+    let dateStringToday = offsetDateToday.toISOString().split('T')[0]
+    setMatchedEvents(events.filter((e) => e.date === dateStringToday));
   }
 
   function toMonth() {

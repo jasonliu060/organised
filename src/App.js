@@ -18,6 +18,11 @@ function App() {
     name: 'workout',
     date: '2024-01-23',
     time: '15:00'
+  },{
+    id: 3,
+    name: 'go home',
+    date: '2024-02-19',
+    time: '15:00'
   }]);
 
 
