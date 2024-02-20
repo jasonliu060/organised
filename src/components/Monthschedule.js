@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // new date object (for example: 06 Feb 2024)
 
-export default function Monthschedule({ date, switchMonthToSelectedWeek, switchMonthToSelectedDay }) {
+export default function Monthschedule({ date, events, switchMonthToSelectedWeek, switchMonthToSelectedDay }) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const today = new Date();
@@ -15,11 +15,18 @@ export default function Monthschedule({ date, switchMonthToSelectedWeek, switchM
 
   const [dates, setDates] = useState(getDates());
 
+  console.log(date);
+
+  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))))
+
+  console.log(matchedEvents);
+
   function getParameter() {
     // for example: date - 06/02/2024
     let yearOfDate = date.getFullYear();
     let monthOfDate = date.getMonth();
-    let dateOfDate = date.getDate();
+    // let dateOfDate = date.getDate();
+
     // set date object 01/month+1/year, for example: 01/03/2024
     date.setFullYear(date.getFullYear(), date.getMonth() + 1, 1);
 
@@ -36,7 +43,7 @@ export default function Monthschedule({ date, switchMonthToSelectedWeek, switchM
     dateQuantityLast = date.getDate(date.setFullYear(date.getFullYear(), date.getMonth(), 0));
 
     // set date to this month 1st, for example: 01 Feb 2024
-    date.setFullYear(yearOfDate, monthOfDate, dateOfDate)
+    date.setFullYear(yearOfDate, monthOfDate, 1)
   }
 
   function generateDatesArray() {
@@ -88,6 +95,7 @@ export default function Monthschedule({ date, switchMonthToSelectedWeek, switchM
     date.setFullYear(date.getFullYear(), date.getMonth() + 1, 1);
     getParameter();
     setDates(generateDatesArray());
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
   }
 
   function toLast(){
@@ -95,12 +103,14 @@ export default function Monthschedule({ date, switchMonthToSelectedWeek, switchM
     date.setFullYear(date.getFullYear(), date.getMonth() - 1, 1);
     getParameter();
     setDates(generateDatesArray());
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
   }
 
   function toToday(){
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
     getParameter();
     setDates(generateDatesArray());
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
   }
 
   return (
@@ -184,6 +194,9 @@ export default function Monthschedule({ date, switchMonthToSelectedWeek, switchM
           )
       ).filter((e, index) => index > 34 && index < 42)}
       </div>}
+      <div>
+        {JSON.stringify(matchedEvents)}
+      </div>
     </>
   )
 }

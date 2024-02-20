@@ -57,9 +57,9 @@ export default function Calendar({events}) {
 
   return (
     <div>Calendar
-      {monthSwitcher && <Monthschedule switchMonthToSelectedDay={switchMonthToSelectedDay} switchMonthToSelectedWeek={switchMonthToSelectedWeek} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+      {monthSwitcher && <Monthschedule switchMonthToSelectedDay={switchMonthToSelectedDay} switchMonthToSelectedWeek={switchMonthToSelectedWeek} events={events} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
 
-      {weekSwitcher && <Weekschedule switchWeekToSelectedDay={switchWeekToSelectedDay} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+      {weekSwitcher && <Weekschedule switchWeekToSelectedDay={switchWeekToSelectedDay} events={events} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
 
       {daySwitcher && <Dayschedule date={date}  events={events} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
     </div>

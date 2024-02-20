@@ -9,33 +9,23 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const offset = date.getTimezoneOffset()
-  const offsetDate = new Date(date.getTime() - (offset * 60 * 1000));
-  const dateString = offsetDate.toISOString().split('T')[0];
-  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => e.date === dateString));
-  console.log(matchedEvents, date, offsetDate, dateString);
+  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))))
 
   // controller function
   function toLast() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 1);
-    const offsetDateLast = new Date(date.getTime() - (offset * 60 * 1000));
-    let dateStringLast = offsetDateLast.toISOString().split('T')[0]
-    setMatchedEvents(events.filter((e) => e.date === dateStringLast));
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
   }
 
   function toNext() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 1);
-    const offsetDateLast = new Date(date.getTime() - (offset * 60 * 1000));
-    let dateStringLast = offsetDateLast.toISOString().split('T')[0]
-    setMatchedEvents(events.filter((e) => e.date === dateStringLast));
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
   }
 
 
   function toToday() {
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
-    const offsetDateToday = new Date(date.getTime() - (offset * 60 * 1000));
-    let dateStringToday = offsetDateToday.toISOString().split('T')[0]
-    setMatchedEvents(events.filter((e) => e.date === dateStringToday));
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
   }
 
   function toMonth() {
@@ -54,13 +44,13 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
   return (
     <>
       <div>
-      <button onClick={toLast}>Last</button>
-      <button onClick={toNext}>Next</button>
-      <button onClick={toToday}>Today</button>
-      <button onClick={toMonth}>Back to Month</button>
-      <button onClick={toWeek}>Back to Week</button>
-      <input type="date" name="date"/>
-    </div>
+        <button onClick={toLast}>Last</button>
+        <button onClick={toNext}>Next</button>
+        <button onClick={toToday}>Today</button>
+        <button onClick={toMonth}>Back to Month</button>
+        <button onClick={toWeek}>Back to Week</button>
+        <input type="date" name="date" />
+      </div>
       <div>
         {date.getDate()} {months[date.getMonth()]} {date.getFullYear()}
       </div>

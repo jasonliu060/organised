@@ -1,9 +1,10 @@
 import '../App.css';
 import { useState } from 'react';
 
-export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, switchWeekToSelectedDay }) {
+export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, switchWeekToSelectedDay, events }) {
   const today = new Date();
 
+  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))))
 
   let dateOfSun = 0;
   let monthOfSun = 0;
@@ -17,10 +18,6 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   function getParameter() {
-    let yearOfDate = date.getFullYear();
-    let monthOfDate = date.getMonth();
-    let dateOfDate = date.getDate();
-
     // switch to Sunday of the week
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay())
     dateOfSun = date.getDate();
@@ -34,7 +31,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     yearOfSat = date.getFullYear();
 
     // set date back to initial
-    date.setFullYear(yearOfDate, monthOfDate, dateOfDate)
+    date.setFullYear(yearOfSun, monthOfSun, dateOfSun)
   }
 
   function generateDatesArray() {
@@ -86,18 +83,21 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 7);
     getParameter();
     setDates(generateDatesArray());
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
 
   function toLast(){
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 7);
     getParameter();
     setDates(generateDatesArray());
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
 
   function toToday(){
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
     getParameter();
     setDates(generateDatesArray());
+    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
 
   function toMonth(){
@@ -108,6 +108,9 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     setWeekSwitcher(false);
     setDaySwitcher(false);
   }
+
+  // const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.date === date.getDate() && e.year === date.getFullYear() && e.month === date.getMonth()) ));
+  // console.log(date, matchedEvents, dates);
 
   return (
     <>
@@ -147,6 +150,9 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
         }
 
       })}
+      </div>
+      <div>
+        {JSON.stringify(matchedEvents)}
       </div>
     </>
   )
