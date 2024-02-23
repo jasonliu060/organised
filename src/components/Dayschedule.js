@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import '../App.css';
-// import { useState } from 'react';
-
 
 export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, events, setDate }) {
   const today = new Date();
@@ -68,7 +66,9 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
           </div></div>
       }
       <div>
-        {JSON.stringify(matchedEvents)}
+        {matchedEvents.map((event) =>
+          <div>{event.name} {event.dateString} {event.time}</div>
+        )}
       </div>
     </>
   )

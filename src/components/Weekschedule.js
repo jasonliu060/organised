@@ -79,48 +79,45 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   }
 
   // controller functions
-  function toNext(){
+  function toNext() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 7);
     getParameter();
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
 
-  function toLast(){
+  function toLast() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 7);
     getParameter();
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
 
-  function toToday(){
+  function toToday() {
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
     getParameter();
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
 
-  function toMonth(){
-    if (date.getFullYear() === today.getFullYear && date.getMonth() === today.getMonth()){
-      setDate(new Date (today.getFullYear(), today.getMonth(), today.getDate()));
+  function toMonth() {
+    if (date.getFullYear() === today.getFullYear && date.getMonth() === today.getMonth()) {
+      setDate(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
     }
     setMonthSwitcher(true);
     setWeekSwitcher(false);
     setDaySwitcher(false);
   }
 
-  // const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.date === date.getDate() && e.year === date.getFullYear() && e.month === date.getMonth()) ));
-  // console.log(date, matchedEvents, dates);
-
   return (
     <>
       <div>
-      <button onClick={toLast}>Last</button>
-      <button onClick={toNext}>Next</button>
-      <button onClick={toToday}>Today</button>
-      <button onClick={toMonth}>Back to Month</button>
-      <input type="date" name="date"/>
-    </div>
+        <button onClick={toLast}>Last</button>
+        <button onClick={toNext}>Next</button>
+        <button onClick={toToday}>Today</button>
+        <button onClick={toMonth}>Back to Month</button>
+        <input type="date" name="date" />
+      </div>
       <div>
         {dateOfSun} {months[monthOfSun]} {yearOfSun} ~ {dateOfSat} {months[monthOfSat]} {yearOfSat}
       </div>
@@ -152,7 +149,9 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
       })}
       </div>
       <div>
-        {JSON.stringify(matchedEvents)}
+        {matchedEvents.map((event) =>
+          <div>{event.name} {event.dateString} {event.time}</div>
+        )}
       </div>
     </>
   )
