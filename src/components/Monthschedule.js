@@ -18,13 +18,6 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
 
   const [dates, setDates] = useState(getDates());
 
-  // function getNumbersFromStrings(){
-  //   yearNumber = Number(dateString.slice(0, 4))
-  //   monthNumber = Number(dateString.charAt(5)==='0' ? dateString.charAt(6) : dateString.slice(5, 7)) - 1
-  //   dateNumber = Number(dateString.charAt(8)==='0' ? dateString.charAt(9) : dateString.slice(8, 10))
-  //   console.log(yearNumber, monthNumber, dateNumber)
-  // }
-
   const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))))
 
   function getParameter() {
@@ -104,7 +97,6 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
     setYear(date.getFullYear());
     setMonth(date.getMonth());
-    console.log(date);
   }
 
   function toLast() {
@@ -122,25 +114,28 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     getParameter();
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
-
+    setYear(date.getFullYear());
+    setMonth(date.getMonth());
   }
 
   function yearOnchangeHandler(event){
     const yearInput = event.target.value;
+    setYear(yearInput);
     date.setFullYear(yearInput, date.getMonth(), date.getDate())
     getParameter();
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
-    console.log(yearInput, date, dates, matchedEvents)
+    // console.log(yearInput, date, dates)
   }
 
   function monthOnchangeHandler(event){
     const monthInput = event.target.value;
+    setMonth(monthInput);
     date.setFullYear(date.getFullYear(), monthInput, date.getDate())
     getParameter();
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
-    console.log(monthInput, date, dates, matchedEvents)
+    console.log(monthInput, date)
   }
 
 
@@ -150,7 +145,8 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
         <button onClick={toLast}>Last</button>
         <button onClick={toNext}>Next</button>
         <button onClick={toToday}>Today</button>
-        <select name="selectYear" value={year} onChange={yearOnchangeHandler}>
+        <input type="number" name="year" min="0" value={year} onChange={yearOnchangeHandler}/>
+        {/* <select name="selectYear" value={year} onChange={yearOnchangeHandler}>
         <option value={today.getFullYear() - 5}>{today.getFullYear() - 5}</option>
         <option value={today.getFullYear() - 4}>{today.getFullYear() - 4}</option>
         <option value={today.getFullYear() - 3}>{today.getFullYear() - 3}</option>
@@ -162,7 +158,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
         <option value={today.getFullYear() + 3}>{today.getFullYear() + 3}</option>
         <option value={today.getFullYear() + 4}>{today.getFullYear() + 4}</option>
         <option value={today.getFullYear() + 5}>{today.getFullYear() + 5}</option>
-        </select>
+        </select> */}
         <select name="selectMonth" value={month} onChange={monthOnchangeHandler}>
         <option value={0}>{months[0]}</option>
         <option value={1}>{months[1]}</option>
