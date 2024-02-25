@@ -77,7 +77,7 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
         <button onClick={toToday}>Today</button>
         <button onClick={toMonth}>Back to Month</button>
         <button onClick={toWeek}>Back to Week</button>
-        <input type="date" name="date" value={`${yearNumberFromDateObj}-${monthNumberFromDateObj > 9 ? monthNumberFromDateObj + 1 : '0' + (monthNumberFromDateObj + 1)}-${dateNumberFromDateObj > 9 ? dateNumberFromDateObj : '0' + dateNumberFromDateObj}`} onChange={datepickerOnchangeHandler} onKeyDown={datepickerOnKeyDownHandler} />
+        <input type="date" name="date" required="required" value={`${yearNumberFromDateObj}-${monthNumberFromDateObj > 9 ? monthNumberFromDateObj + 1 : '0' + (monthNumberFromDateObj + 1)}-${dateNumberFromDateObj > 9 ? dateNumberFromDateObj : '0' + dateNumberFromDateObj}`} onChange={datepickerOnchangeHandler} onKeyDown={datepickerOnKeyDownHandler} />
       </div>
       <div>
         {date.getDate()} {months[date.getMonth()]} {date.getFullYear()}
