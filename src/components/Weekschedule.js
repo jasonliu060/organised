@@ -13,6 +13,9 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   let monthOfSat = 0;
   let yearOfSat = 0;
 
+  const [month, setMonth] = useState(date.getMonth());
+  const [year, setYear] = useState(date.getFullYear());
+
   const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   dateOfSun = temporaryDateObject.getDate();
   monthOfSun = temporaryDateObject.getMonth();
@@ -95,7 +98,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     dateOfSat = temporaryDateObject.getDate();
     monthOfSat = temporaryDateObject.getMonth();
     yearOfSat = temporaryDateObject.getFullYear();
-    
+
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
@@ -112,7 +115,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     dateOfSat = temporaryDateObject.getDate();
     monthOfSat = temporaryDateObject.getMonth();
     yearOfSat = temporaryDateObject.getFullYear();
-    
+
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
@@ -147,22 +150,23 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
         <span className='day'>Fri</span>
         <span className='day'>Sat</span>
       </div>
-      <div className="week">{dates.map((e, index) => {
-        if (e.isToday === true) {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date date-today' onClick={() => switchWeekToSelectedDay(index)} key={index}>{e.dateNumber}</span>
+      <div className="week">
+        {dates.map((e, index) => (
+          <div className='dateContainer' key={index}>
+            <div className={e.isToday ? 'date date-today' : 'date'} onClick={() => switchWeekToSelectedDay(index)} key={index}>
+              {e.dateNumber}
+              <br key={index}></br>
+              {events.filter((element0) => {
+                const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
+                if (element0.milliseconds >= temporaryDateObject.getTime() && element0.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
+                  return element0
+                }
+                return null
+              }).map((e, i) => <div key={i}>{e.name}</div>)
+              }
             </div>
-          )
-        } else {
-          return (
-            <div className='dateContainer' key={index}>
-              <span className='date' onClick={() => switchWeekToSelectedDay(index)} key={index}>{e.dateNumber}</span>
-            </div>
-          )
-        }
-
-      })}
+          </div>
+        ))}
       </div>
       <div>
         {matchedEvents.map((event, index) =>
