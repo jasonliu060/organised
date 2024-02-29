@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function Eventinput({ addEvent }) {
+export default function Eventinput({ addEvent, typeList, setTypeList }) {
   const [name, setName] = useState('');
   const [dateString, setDateString] = useState('');
   const [time, setTime] = useState('');
@@ -10,16 +10,12 @@ export default function Eventinput({ addEvent }) {
   const [newTypeOption, setNewTypeOption] = useState('');
   const [type, setType] = useState('default');
 
-  const [addIconClassName, setAddIconClassName] = useState('add-icon');
+  const [addIconClassName, setAddIconClassName] = useState('add-icon shown');
   const [addTypeInputClassName, setAddTypeInputClassName] = useState('hidden');
   const [tickIconClassName, setTickIconClassName] = useState('tick-icon hidden');
 
-  const [typeList, setTypeList] = useState([
-    'Default'
-  ])
-
   function addIconOnClickHandler(){
-    if (addIconClassName === 'add-icon'){
+    if (addIconClassName === 'add-icon shown'){
       setAddIconClassName('add-icon hidden');
       setAddTypeInputClassName('shown');
       setTickIconClassName('tick-icon shown');
@@ -32,6 +28,7 @@ export default function Eventinput({ addEvent }) {
         ...typeList,
         newTypeOption
       ])
+      setNewTypeOption('');
       setAddIconClassName('add-icon shown');
       setAddTypeInputClassName('hidden');
       setTickIconClassName('tick-icon hidden');

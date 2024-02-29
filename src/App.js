@@ -22,9 +22,9 @@ function App() {
     id: 2,
     name: 'workout',
     type: 'default',
-    priority: 'medium',
+    priority: 'high',
     url: '',
-    status: 'todo',
+    status: 'inprogress',
     milliseconds: 1708347600000,
     dateString: '2024-02-20',
     time: '15:00'
@@ -32,9 +32,9 @@ function App() {
     id: 3,
     name: 'go home',
     type: 'default',
-    priority: 'medium',
+    priority: 'low',
     url: '',
-    status: 'todo',
+    status: 'done',
     milliseconds: 1705669200000,
     dateString: '2024-01-20',
     time: '15:00'

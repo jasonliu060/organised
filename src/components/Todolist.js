@@ -1,7 +1,12 @@
 import Eventinput from './Eventinput';
 import Eventlist from './Eventlist';
+import { useState } from 'react';
 
 export default function Todolist({ events, setEvents }) {
+  const [typeList, setTypeList] = useState([
+    'default'
+  ])
+
   function removeEvent(id){
     setEvents(events.filter((element) => element.id !== id ))
   }
@@ -27,8 +32,8 @@ export default function Todolist({ events, setEvents }) {
   return (
     <div>
       To do list
-      <Eventinput events={events} addEvent={addEvent}/>
-      <Eventlist events={events}  removeEvent={removeEvent}/>
+      <Eventinput events={events} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
+      <Eventlist events={events} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList}/>
 
     </div>
   )
