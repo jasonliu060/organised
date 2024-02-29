@@ -13,8 +13,8 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   let monthOfSat = 0;
   let yearOfSat = 0;
 
-  const [month, setMonth] = useState(date.getMonth());
-  const [year, setYear] = useState(date.getFullYear());
+  const [month] = useState(date.getMonth());
+  const [year] = useState(date.getFullYear());
 
   const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   dateOfSun = temporaryDateObject.getDate();

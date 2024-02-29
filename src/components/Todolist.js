@@ -6,7 +6,7 @@ export default function Todolist({ events, setEvents }) {
     setEvents(events.filter((element) => element.id !== id ))
   }
 
-  function addEvent(name, milliseconds, dateString, time){
+  function addEvent(name, milliseconds, dateString, time, url, priority, status, type){
     const id = Math.floor(Math.random() * 1000000)
     setEvents([
       ...events,
@@ -15,7 +15,11 @@ export default function Todolist({ events, setEvents }) {
         name: name,
         milliseconds: milliseconds,
         dateString: dateString,
-        time: time
+        time: time,
+        type: type,
+        priority: priority,
+        url: url,
+        status: status,
       }
     ])
     console.log(events);

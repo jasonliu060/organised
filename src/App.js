@@ -11,18 +11,30 @@ function App() {
   const [events, setEvents] = useState([{
     id: 1,
     name: 'study',
+    type: 'default',
+    priority: 'medium',
+    url: '',
+    status: 'todo',
     milliseconds: 1708261200000,
     dateString: '2024-02-19',
     time: '14:00'
   }, {
     id: 2,
     name: 'workout',
+    type: 'default',
+    priority: 'medium',
+    url: '',
+    status: 'todo',
     milliseconds: 1708347600000,
     dateString: '2024-02-20',
     time: '15:00'
   },{
     id: 3,
     name: 'go home',
+    type: 'default',
+    priority: 'medium',
+    url: '',
+    status: 'todo',
     milliseconds: 1705669200000,
     dateString: '2024-01-20',
     time: '15:00'

@@ -6,7 +6,10 @@ export default function Eventlist({ events, removeEvent }) {
       {events.map(element => {
         return (
           <div key={element.id}>
-            {element.name} {element.milliseconds} {element.dateString} {element.time}
+            {element.name} {element.milliseconds} 
+            {element.dateString} {element.time} 
+            {element.url} {element.priority} 
+            {element.status} {element.type}
             <button onClick={() => removeEvent(element.id)}>Remove</button>
           </div>
         )
