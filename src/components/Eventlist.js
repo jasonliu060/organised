@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function Eventlist({ events, removeEvent, typeList }) {
+export default function Eventlist({ events, setEvents, removeEvent, typeList }) {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
@@ -8,7 +8,6 @@ export default function Eventlist({ events, removeEvent, typeList }) {
 
   function getSelectedEvents(theSelectedType, theSelectedStatus, theSelectedPriority) {
     if (theSelectedType === 'all' && theSelectedPriority === 'all' && theSelectedStatus === 'all') {
-      console.log(events);
       return events
     } else if (theSelectedType === 'all') {
       if (theSelectedPriority === 'all' && theSelectedStatus !== 'all') {
@@ -51,11 +50,31 @@ export default function Eventlist({ events, removeEvent, typeList }) {
     setSelectedPriority(event.target.value);
   }
 
+  function markAsInProgressHandler(id, index) {
+    selectedEvents[index].status = 'inprogress';
+    const obj = selectedEvents[index];
+    setEvents(
+      events.map((event) => (
+        event.id === id ? obj : event
+      ))
+    );
+  }
+
+  function markAsDoneHandler(id, index) {
+    selectedEvents[index].status = 'done';
+    const obj = selectedEvents[index];
+    setEvents(
+      events.map((event) => (
+        event.id === id ? obj : event
+      ))
+    );
+  }
+
   return (
     <>
       <div>Filter</div>
       <div>
-      <label>Type</label>
+        <label>Type</label>
         <select name="type" value={selectedType} onChange={typeOnChangeHandler}>
           <option value='all'>all</option>
           {typeList.map(
@@ -79,9 +98,11 @@ export default function Eventlist({ events, removeEvent, typeList }) {
           <option value="low">Low</option>
         </select>
       </div>
-      {selectedEvents.map(element => (
+      {selectedEvents.map((element, index) => (
         <div key={element.id}>
           {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status} {element.type}
+          <button onClick={() => markAsInProgressHandler(element.id, index)}>Mark as in progress</button>
+          <button onClick={() => markAsDoneHandler(element.id, index)}>Mark as done</button>
           <button onClick={() => removeEvent(element.id)}>Remove</button>
         </div>))}
     </>

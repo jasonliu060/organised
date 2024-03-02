@@ -33,7 +33,7 @@ export default function Todolist({ events, setEvents }) {
     <div>
       To do list
       <Eventinput events={events} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
-      <Eventlist events={events} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList}/>
+      <Eventlist events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList}/>
 
     </div>
   )
