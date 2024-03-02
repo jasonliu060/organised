@@ -16,6 +16,11 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   const [month] = useState(date.getMonth());
   const [year] = useState(date.getFullYear());
 
+  const temporaryDateObjectArray = [];
+  for (let i = 0; i < 7; i++) {
+    temporaryDateObjectArray.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + i))
+  }
+
   const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   dateOfSun = temporaryDateObject.getDate();
   monthOfSun = temporaryDateObject.getMonth();
@@ -29,38 +34,22 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+
   function generateDatesArray() {
-    const calendarDates = [];
-    if (dateOfSat < 7) {
-      for (let i = dateOfSun; i < dateOfSun + (7 - dateOfSat); i++) {
-        calendarDates.push({
-          dateNumber: i,
-          monthIndicator: 0,
-          isToday: false
-        });
+    const calendarDates = temporaryDateObjectArray.map((e) => (
+      {
+        yearNumber: e.getFullYear(),
+        monthNumber: e.getMonth(),
+        dateNumber: e.getDate(),
+        isToday: false
       }
-      for (let i = 1; i < dateOfSat + 1; i++) {
-        calendarDates.push({
-          dateNumber: i,
-          monthIndicator: 1,
-          isToday: false
-        });
-      }
-    } else {
-      for (let i = dateOfSun; i < dateOfSat + 1; i++) {
-        calendarDates.push({
-          dateNumber: i,
-          monthIndicator: 1,
-          isToday: false
-        });
-      }
-    }
+    ))
     const newCalendarDates = calendarDates.map((e) => {
-      if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && e.monthIndicator === 1 && e.dateNumber === today.getDate()) {
-        return ({
+      if (today.getFullYear() === e.yearNumber && today.getMonth() === e.monthNumber && e.dateNumber === today.getDate()) {
+        return {
           ...e,
           isToday: true
-        })
+        }
       } else {
         return e
       }
@@ -157,7 +146,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
               {e.dateNumber}
               <br key={index}></br>
               {events.filter((element0) => {
-                const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
+                const temporaryDateObject = new Date(year, month - 1 + dates[index].monthNumber, dates[index].dateNumber);
                 if (element0.milliseconds >= temporaryDateObject.getTime() && element0.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
                   return element0
                 }
