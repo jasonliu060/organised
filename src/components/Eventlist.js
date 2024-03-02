@@ -4,7 +4,17 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList }) 
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
-  const selectedEvents = getSelectedEvents(selectedType, selectedStatus, selectedPriority)
+  const [isHidden, setIsHidden] = useState(false);
+  const selectedEvents = hideDone();
+  console.log(selectedEvents);
+
+  function hideDone() {
+    if (isHidden) {
+      return getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done')
+    } else {
+      return getSelectedEvents(selectedType, selectedStatus, selectedPriority)
+    }
+  }
 
   function getSelectedEvents(theSelectedType, theSelectedStatus, theSelectedPriority) {
     if (theSelectedType === 'all' && theSelectedPriority === 'all' && theSelectedStatus === 'all') {
@@ -48,6 +58,10 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList }) 
 
   function priorityOnChangeHandler(event) {
     setSelectedPriority(event.target.value);
+  }
+
+  function isHiddenHandler() {
+    isHidden ? setIsHidden(false) : setIsHidden(true)
   }
 
   function markAsInProgressHandler(id, index) {
@@ -97,6 +111,8 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList }) 
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
+        <label>Hide Done</label>
+        <input type="checkbox" name="isHidden" value={isHidden} onChange={isHiddenHandler} />
       </div>
       {selectedEvents.map((element, index) => (
         <div key={element.id}>
