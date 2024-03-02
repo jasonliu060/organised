@@ -6,29 +6,13 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
 
   const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))))
 
-  let dateOfSun = 0;
-  let monthOfSun = 0;
-  let yearOfSun = 0;
-  let dateOfSat = 0;
-  let monthOfSat = 0;
-  let yearOfSat = 0;
-
   const [month] = useState(date.getMonth());
   const [year] = useState(date.getFullYear());
 
-  const temporaryDateObjectArray = [];
-  for (let i = 0; i < 7; i++) {
-    temporaryDateObjectArray.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + i))
-  }
+ 
 
-  const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
-  dateOfSun = temporaryDateObject.getDate();
-  monthOfSun = temporaryDateObject.getMonth();
-  yearOfSun = temporaryDateObject.getFullYear();
-  const temporaryDateObject0 = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
-  dateOfSat = temporaryDateObject0.getDate();
-  monthOfSat = temporaryDateObject0.getMonth();
-  yearOfSat = temporaryDateObject0.getFullYear();
+  const dateOfSun = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
+  const dateOfSat = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
 
   const [dates, setDates] = useState(generateDatesArray());
 
@@ -36,6 +20,10 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
 
 
   function generateDatesArray() {
+    const temporaryDateObjectArray = [];
+    for (let i = 0; i < 7; i++) {
+      temporaryDateObjectArray.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + i))
+    }
     const calendarDates = temporaryDateObjectArray.map((e) => (
       {
         yearNumber: e.getFullYear(),
@@ -62,15 +50,6 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7));
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 7);
 
-    const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    dateOfSun = temporaryDateObject.getDate();
-    monthOfSun = temporaryDateObject.getMonth();
-    yearOfSun = temporaryDateObject.getFullYear();
-    temporaryDateObject.setFullYear(temporaryDateObject.getFullYear(), temporaryDateObject.getMonth(), temporaryDateObject.getDate() + 6);
-    dateOfSat = temporaryDateObject.getDate();
-    monthOfSat = temporaryDateObject.getMonth();
-    yearOfSat = temporaryDateObject.getFullYear();
-
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
@@ -79,15 +58,6 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7));
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 7);
 
-    const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    dateOfSun = temporaryDateObject.getDate();
-    monthOfSun = temporaryDateObject.getMonth();
-    yearOfSun = temporaryDateObject.getFullYear();
-    temporaryDateObject.setFullYear(temporaryDateObject.getFullYear(), temporaryDateObject.getMonth(), temporaryDateObject.getDate() + 6);
-    dateOfSat = temporaryDateObject.getDate();
-    monthOfSat = temporaryDateObject.getMonth();
-    yearOfSat = temporaryDateObject.getFullYear();
-
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
   }
@@ -95,15 +65,6 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   function toToday() {
     setDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()));
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
-
-    const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    dateOfSun = temporaryDateObject.getDate();
-    monthOfSun = temporaryDateObject.getMonth();
-    yearOfSun = temporaryDateObject.getFullYear();
-    temporaryDateObject.setFullYear(temporaryDateObject.getFullYear(), temporaryDateObject.getMonth(), temporaryDateObject.getDate() + 6);
-    dateOfSat = temporaryDateObject.getDate();
-    monthOfSat = temporaryDateObject.getMonth();
-    yearOfSat = temporaryDateObject.getFullYear();
 
     setDates(generateDatesArray());
     setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
@@ -127,9 +88,8 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
         <button onClick={toMonth}>Back to Month</button>
       </div>
       <div>
-        {dateOfSun} {months[monthOfSun]} {yearOfSun} ~ {dateOfSat} {months[monthOfSat]} {yearOfSat}
+        {dateOfSun.getDate()} {months[dateOfSun.getMonth()]} {dateOfSun.getFullYear()} ~ {dateOfSat.getDate()} {months[dateOfSat.getMonth()]} {dateOfSat.getFullYear()}
       </div>
-
       <div className="days">
         <span className='day'>Sun</span>
         <span className='day'>Mon</span>
