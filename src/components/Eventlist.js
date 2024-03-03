@@ -1,12 +1,16 @@
 import { useState } from "react"
+import Editeventpopup from "./Editeventpopup";
 
-export default function Eventlist({ events, setEvents, removeEvent, typeList }) {
+export default function Eventlist({ events, setEvents, removeEvent, typeList, setTypeList }) {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [isHidden, setIsHidden] = useState(false);
   const selectedEvents = hideDone();
-  console.log(selectedEvents);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingEventId, setEditingEventId] = useState(0);
+  console.log(editingEventId);
+
 
   function hideDone() {
     if (isHidden) {
@@ -84,6 +88,11 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList }) 
     );
   }
 
+  function editEvent(eventId) {
+    setEditingEventId(eventId);
+    setIsEditing(true);
+  }
+
   return (
     <>
       <div>Filter</div>
@@ -120,7 +129,9 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList }) 
           <button onClick={() => markAsInProgressHandler(element.id, index)}>Mark as in progress</button>
           <button onClick={() => markAsDoneHandler(element.id, index)}>Mark as done</button>
           <button onClick={() => removeEvent(element.id)}>Remove</button>
+          <button onClick={() => editEvent(element.id)}>Edit</button>
         </div>))}
+        {isEditing ? <Editeventpopup events={events} setEvents={setEvents} editingEventId={editingEventId} typeList={typeList} setTypeList={setTypeList} setIsEditing={setIsEditing} /> : ''}
     </>
   )
 }
