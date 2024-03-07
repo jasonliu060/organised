@@ -4,6 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
 
 import Calendar from './Calendar';
 import Todolist from './Todolist';
@@ -53,8 +55,8 @@ export default function BasicTabs({events, setEvents}) {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-          <Tab label="Lists View" {...a11yProps(0)} />
-          <Tab label="Calendar View" {...a11yProps(1)} />
+          <Tab icon={<ChecklistRtlIcon />} label="Lists View" {...a11yProps(0)} />
+          <Tab icon={<CalendarMonthIcon />} label="Calendar View" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

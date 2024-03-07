@@ -3,15 +3,15 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Todolist from './components/Todolist';
+// import Todolist from './components/Todolist';
 import { useState } from "react"
-import Calendar from './components/Calendar';
-import Switcher from './components/Switcher';
-import CustomTabPanel from './components/TabPanel';
+// import Calendar from './components/Calendar';
+// import Switcher from './components/Switcher';
+import TabPanel from './components/TabPanel'
 
 
 function App() {
-  const [switcher, setSwitcher] = useState(true)
+  // const [switcher, setSwitcher] = useState(true)
 
   const [events, setEvents] = useState([{
     id: 1,
@@ -48,7 +48,7 @@ function App() {
 
   return (
     <div className="App">
-      <CustomTabPanel events={events} setEvents={setEvents}/>
+      <TabPanel events={events} setEvents={setEvents}/>
       {/* <Switcher setSwitcher={setSwitcher}/>
       {switcher ? <Todolist events={events} setEvents={setEvents}/> : <Calendar events={events} setEvents={setEvents}/>} */}
     </div>
