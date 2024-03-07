@@ -7,6 +7,7 @@ import Todolist from './components/Todolist';
 import { useState } from "react"
 import Calendar from './components/Calendar';
 import Switcher from './components/Switcher';
+import CustomTabPanel from './components/TabPanel';
 
 
 function App() {
@@ -47,8 +48,9 @@ function App() {
 
   return (
     <div className="App">
-      <Switcher setSwitcher={setSwitcher}/>
-      {switcher ? <Todolist events={events} setEvents={setEvents}/> : <Calendar events={events} setEvents={setEvents}/>}
+      <CustomTabPanel events={events} setEvents={setEvents}/>
+      {/* <Switcher setSwitcher={setSwitcher}/>
+      {switcher ? <Todolist events={events} setEvents={setEvents}/> : <Calendar events={events} setEvents={setEvents}/>} */}
     </div>
   );
 }

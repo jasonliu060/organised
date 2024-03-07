@@ -9,7 +9,6 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
   const selectedEvents = hideDone();
   const [isEditing, setIsEditing] = useState(false);
   const [editingEventId, setEditingEventId] = useState(0);
-  console.log(editingEventId);
 
 
   function hideDone() {
