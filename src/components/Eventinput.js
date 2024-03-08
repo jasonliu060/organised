@@ -186,20 +186,6 @@ export default function Eventinput({ addEvent, typeList, setTypeList }) {
             }>
               Type name can not be empty!
             </Alert>}
-            {/* {alertError ? <Alert severity="error" action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setOpen(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }>
-              Type name can not be empty!
-            </Alert> : null} */}
           </Collapse>
         </div>
         <Button variant="outlined" onClick={submitHandler}>Add</Button>

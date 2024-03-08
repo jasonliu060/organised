@@ -41,3 +41,12 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.add-event-element {
+  margin-top: 15px;
+}
+
+.type-input-container {
+  display: flex;
+  align-items: center;
+}

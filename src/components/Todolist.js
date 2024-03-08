@@ -1,6 +1,7 @@
 import Eventinput from './Eventinput';
 import Eventlist from './Eventlist';
 import { useState } from 'react';
+import Addevent from './Addevent'
 
 export default function Todolist({ events, setEvents }) {
   const [typeList, setTypeList] = useState([
@@ -31,8 +32,8 @@ export default function Todolist({ events, setEvents }) {
   }
   return (
     <div>
-      To do list
-      <Eventinput events={events} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
+      {/* <Eventinput events={events} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/> */}
+      <Addevent events={events} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
       <Eventlist events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList}/>
 
     </div>
