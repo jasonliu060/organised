@@ -12,6 +12,10 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 
 export default function Eventinput({ addEvent, typeList, setTypeList }) {
@@ -25,6 +29,10 @@ export default function Eventinput({ addEvent, typeList, setTypeList }) {
   const [type, setType] = useState('default');
 
   const [isAddingType, setIsAddingType] = useState(false);
+
+  const [isSuccess, setIsSuccess] = useState(false);
+  // const [alertError, setAlertError] = useState(false);
+  const [open, setOpen] = useState(false);
 
   function addIconOnClickHandler() {
     if (isAddingType) {
@@ -42,9 +50,15 @@ export default function Eventinput({ addEvent, typeList, setTypeList }) {
       ])
       setNewTypeOption('');
       setIsAddingType(false);
-      alert('Type option added')
+      // setAlertText('New type added!')
+      setIsSuccess(true);
+      setOpen(true);
+      // alert('Type option added')
     } else {
-      alert('Type name can not be empty!')
+      // setAlertText('Type name can not be empty!')
+      setIsSuccess(false);
+      setOpen(true);
+      // alert('Type name can not be empty!')
     }
   }
 
@@ -55,11 +69,11 @@ export default function Eventinput({ addEvent, typeList, setTypeList }) {
       const milliseconds = dateString.$d.getTime();
       const newTime = (time.$H > 9 ? time.$H : '0' + time.$H) + ':' + (time.$m > 9 ? time.$m : '0' + time.$m)
       addEvent(name, milliseconds, newDateString, newTime, url, priority, status, type);
-    } else if (dateString){
+    } else if (dateString) {
       const newDateString = dateString.$y + '-' + (dateString.$M + 1 > 9 ? dateString.$M + 1 : '0' + (dateString.$M + 1)) + '-' + (dateString.$D > 9 ? dateString.$D : '0' + dateString.$D);
       const milliseconds = dateString.$d.getTime();
       addEvent(name, milliseconds, newDateString, null, url, priority, status, type);
-    } else if (time){
+    } else if (time) {
       const newTime = (time.$H > 9 ? time.$H : '0' + time.$H) + ':' + (time.$m > 9 ? time.$m : '0' + time.$m)
       addEvent(name, null, null, newTime, url, priority, status, type);
     } else {
@@ -142,6 +156,51 @@ export default function Eventinput({ addEvent, typeList, setTypeList }) {
           {isAddingType ? <IconButton color="primary" onClick={tickIconOnClickHandler}>
             <CheckCircleOutlineIcon />
           </IconButton> : null}
+          <Collapse in={open}>
+            {isSuccess ? <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              New type added!
+            </Alert> : <Alert severity="error" action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }>
+              Type name can not be empty!
+            </Alert>}
+            {/* {alertError ? <Alert severity="error" action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }>
+              Type name can not be empty!
+            </Alert> : null} */}
+          </Collapse>
         </div>
         <Button variant="outlined" onClick={submitHandler}>Add</Button>
       </form>
