@@ -7,8 +7,8 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [isHidden, setIsHidden] = useState(false);
   const selectedEvents = hideDone();
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingEventId, setEditingEventId] = useState(0);
+  // const [isEditing, setIsEditing] = useState(false);
+  // const [editingEventId, setEditingEventId] = useState(0);
 
 
   function hideDone() {
@@ -87,10 +87,10 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
     );
   }
 
-  function editEvent(eventId) {
-    setEditingEventId(eventId);
-    setIsEditing(true);
-  }
+  // function editEvent(eventId) {
+  //   setEditingEventId(eventId);
+  //   setIsEditing(true);
+  // }
 
   return (
     <>
@@ -127,10 +127,11 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
           {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status} {element.type}
           <button onClick={() => markAsInProgressHandler(element.id, index)}>Mark as in progress</button>
           <button onClick={() => markAsDoneHandler(element.id, index)}>Mark as done</button>
+          <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
           <button onClick={() => removeEvent(element.id)}>Remove</button>
-          <button onClick={() => editEvent(element.id)}>Edit</button>
+          {/* <button onClick={() => editEvent(element.id)}>Edit</button> */}
         </div>))}
-        {isEditing ? <Editeventpopup events={events} setEvents={setEvents} editingEventId={editingEventId} typeList={typeList} setTypeList={setTypeList} setIsEditing={setIsEditing} /> : ''}
+        {/* {isEditing ? <Editeventpopup events={events} setEvents={setEvents} editingEventId={editingEventId} typeList={typeList} setTypeList={setTypeList} /> : ''} */}
     </>
   )
 }

@@ -32,11 +32,8 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
   const [type, setType] = useState('default');
 
   const [isAddingType, setIsAddingType] = useState(false);
-
   const [isSuccess, setIsSuccess] = useState(false);
-  // const [alertError, setAlertError] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -63,15 +60,11 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
       ])
       setNewTypeOption('');
       setIsAddingType(false);
-      // setAlertText('New type added!')
       setIsSuccess(true);
       setAlertOpen(true);
-      // alert('Type option added')
     } else {
-      // setAlertText('Type name can not be empty!')
       setIsSuccess(false);
       setAlertOpen(true);
-      // alert('Type name can not be empty!')
     }
   }
 
@@ -108,17 +101,6 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
         onClose={handleClose}
         fullWidth={true}
         maxWidth={'xs'}
-        PaperProps={{
-          component: 'form',
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
-        }}
       >
         <DialogTitle>Add Event</DialogTitle>
         <DialogContent>
