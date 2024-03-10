@@ -21,6 +21,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 export default function Editeventpopup({ events, setEvents, editingEventId, typeList, setTypeList }) {
 
@@ -41,6 +42,8 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
   const [alertOpen, setAlertOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
+  // console.log(editingEvent);
+
   function handleClickOpen() {
     setDialogOpen(true);
   };
@@ -49,7 +52,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
     setDialogOpen(false);
   };
 
-  function addIconOnClickHandler(){
+  function addIconOnClickHandler() {
     if (isAddingType) {
       setIsAddingType(false);
     } else {
@@ -57,7 +60,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
     }
   }
 
-  function tickIconOnClickHandler(){
+  function tickIconOnClickHandler() {
     if (newTypeOption !== '') {
       setTypeList([
         ...typeList,
@@ -75,25 +78,29 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
 
   function submitHandler(e) {
     e.preventDefault();
-    if (dateString && time) {
-      const newDateString = dateString.$y + '-' + (dateString.$M + 1 > 9 ? dateString.$M + 1 : '0' + (dateString.$M + 1)) + '-' + (dateString.$D > 9 ? dateString.$D : '0' + dateString.$D);
-      const milliseconds = dateString.$d.getTime();
-      const newTime = (time.$H > 9 ? time.$H : '0' + time.$H) + ':' + (time.$m > 9 ? time.$m : '0' + time.$m)
-      editEvent(editingEventId, name, milliseconds, newDateString, newTime, url, priority, status, type);
-    } else if (dateString) {
-      const newDateString = dateString.$y + '-' + (dateString.$M + 1 > 9 ? dateString.$M + 1 : '0' + (dateString.$M + 1)) + '-' + (dateString.$D > 9 ? dateString.$D : '0' + dateString.$D);
-      const milliseconds = dateString.$d.getTime();
-      editEvent(editingEventId, name, milliseconds, newDateString, null, url, priority, status, type);
-    } else if (time) {
-      const newTime = (time.$H > 9 ? time.$H : '0' + time.$H) + ':' + (time.$m > 9 ? time.$m : '0' + time.$m)
-      editEvent(editingEventId, name, null, null, newTime, url, priority, status, type);
+    if (name === '') {
+      alert('Event name cannot be empty!');
+    } else if (dateString !== '' && time !== '') {
+      const newDateString = dayjs(dateString + 'T' + time).$d;
+      const milliseconds = newDateString.getTime();
+      console.log(newDateString, milliseconds);
+      editEvent(editingEventId, name, milliseconds, dateString, time, url, priority, status, type);
+      setDialogOpen(false);
+    } else if (dateString !== '') {
+      const newDateString = dayjs(dateString).$d;
+      const milliseconds = newDateString.getTime();
+      console.log(newDateString, milliseconds);
+      editEvent(editingEventId, name, milliseconds, dateString, '', url, priority, status, type);
+      setDialogOpen(false);
+    } else if (time !== '') {
+      alert('Event time cannot be set without event date.');
     } else {
-      editEvent(editingEventId, name, null, null, null, url, priority, status, type);
+      editEvent(editingEventId, name, '', '', '', url, priority, status, type);
+      setDialogOpen(false);
     }
-    setDialogOpen(false);
   }
 
-  function editEvent(editingEventId, name, milliseconds, dateString, time, url, priority, status, type){
+  function editEvent(editingEventId, name, milliseconds, dateString, time, url, priority, status, type) {
     editingEvent.name = name;
     editingEvent.milliseconds = milliseconds;
     editingEvent.dateString = dateString;
@@ -128,12 +135,12 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
           </div>
           <div className='add-event-element'>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker label="Event Date" value={dayjs(dateString)} onChange={(newValue) => { setDateString(newValue) }} />
+              <DatePicker label="Event Date" name="Event Date" value={dayjs(dateString)} onChange={(newValue) => { setDateString(newValue && newValue.$D ? newValue.format('YYYY-MM-DD') : ''); console.log(newValue && newValue.$D ? newValue.format('YYYY-MM-DD') : '') }} />
             </LocalizationProvider>
           </div>
           <div className='add-event-element'>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker label="Event Time" value={dayjs(dateString + 'T' + time) } onChange={(newValue) => { setTime(newValue) }} />
+              <TimePicker label="Event Time" name="Event Time" value={time === '' ? '' : dayjs('2000-01-01T' + time)} onChange={(newValue) => { setTime(newValue && newValue.$D ? newValue.format('HH:mm') : '');console.log(newValue && newValue.$D ? newValue.format('HH:mm') : '') }} />
             </LocalizationProvider>
           </div>
           <div className='add-event-element'>
