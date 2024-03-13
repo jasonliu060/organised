@@ -1,5 +1,11 @@
 import { useState } from "react"
 import Editeventpopup from "./Editeventpopup";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 export default function Eventlist({ events, setEvents, removeEvent, typeList, setTypeList }) {
   const [selectedType, setSelectedType] = useState('all');
@@ -87,40 +93,60 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
     );
   }
 
-  // function editEvent(eventId) {
-  //   setEditingEventId(eventId);
-  //   setIsEditing(true);
-  // }
-
   return (
     <>
       <div>Filter</div>
       <div>
-        <label>Type</label>
-        <select name="type" value={selectedType} onChange={typeOnChangeHandler}>
-          <option value='all'>all</option>
-          {typeList.map(
-            (element, index) => (
-              <option value={element} key={index}>{element}</option>
-            )
-          )}
-        </select>
-        <label>Status</label>
-        <select name="status" value={selectedStatus} onChange={statusOnChangeHandler}>
-          <option value='all'>all</option>
-          <option value="todo">To Do</option>
-          <option value="inprogress">In Progress</option>
-          <option value="done">Done</option>
-        </select>
-        <label>Priority</label>
-        <select name="priority" value={selectedPriority} onChange={priorityOnChangeHandler}>
-          <option value='all'>all</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
-        <label>Hide Done</label>
-        <input type="checkbox" name="isHidden" value={isHidden} onChange={isHiddenHandler} />
+        <FormControl>
+          <InputLabel id="type-lable">Type</InputLabel>
+          <Select
+            labelId="type-lable"
+            id="type"
+            value={selectedType}
+            label="Type"
+            onChange={typeOnChangeHandler}
+          >
+            <MenuItem value='all'>All</MenuItem>
+            {typeList.map(
+              (element, index) => (
+                <MenuItem value={element} key={index}>
+                  {element}
+                </MenuItem>
+              )
+            )}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel id="status-lable">Status</InputLabel>
+          <Select
+            labelId="status-lable"
+            id="status"
+            value={selectedStatus}
+            label="Status"
+            onChange={statusOnChangeHandler}
+          >
+            <MenuItem value='all'>All</MenuItem>
+            <MenuItem value='todo'>To Do</MenuItem>
+            <MenuItem value='inprogress'>In Progress</MenuItem>
+            <MenuItem value='done'>Done</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel id="priority-lable">Priority</InputLabel>
+          <Select
+            labelId="priority-lable"
+            id="priority"
+            value={selectedPriority}
+            label="Priority"
+            onChange={priorityOnChangeHandler}
+          >
+            <MenuItem value='all'>All</MenuItem>
+            <MenuItem value='high'>High</MenuItem>
+            <MenuItem value='medium'>Medium</MenuItem>
+            <MenuItem value='low'>Low</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" />
       </div>
       {selectedEvents.map((element, index) => (
         <div key={element.id}>
@@ -129,9 +155,7 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
           <button onClick={() => markAsDoneHandler(element.id, index)}>Mark as done</button>
           <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
           <button onClick={() => removeEvent(element.id)}>Remove</button>
-          {/* <button onClick={() => editEvent(element.id)}>Edit</button> */}
         </div>))}
-        {/* {isEditing ? <Editeventpopup events={events} setEvents={setEvents} editingEventId={editingEventId} typeList={typeList} setTypeList={setTypeList} /> : ''} */}
     </>
   )
 }

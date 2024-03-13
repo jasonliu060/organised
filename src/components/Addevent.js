@@ -114,13 +114,13 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
             <TextField label="Event Name" variant="outlined" value={name} onChange={(e) => { setName(e.target.value) }} />
           </div>
           <div className='add-event-element'>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker label="Event Date" name="Event Date" value={dayjs(dateString)} onChange={(newValue) => { setDateString(newValue && newValue.$D ? newValue.format('YYYY-MM-DD') : ''); console.log(newValue && newValue.$D ? newValue.format('YYYY-MM-DD') : '') }} />
             </LocalizationProvider>
           </div>
           <div className='add-event-element'>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker label="Event Time" name="Event Time" value={time === '' ? '' : dayjs('2000-01-01T' + time)} onChange={(newValue) => { setTime(newValue && newValue.$D ? newValue.format('HH:mm') : '');console.log(newValue && newValue.$D ? newValue.format('HH:mm') : '') }} />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker label="Event Time" name="Event Time" value={time === '' ? '' : dayjs('2000-01-01T' + time)} onChange={(newValue) => { setTime(newValue && newValue.$D ? newValue.format('HH:mm') : ''); console.log(newValue && newValue.$D ? newValue.format('HH:mm') : '') }} />
             </LocalizationProvider>
           </div>
           <div className='add-event-element'>

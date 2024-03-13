@@ -21,7 +21,6 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 export default function Editeventpopup({ events, setEvents, editingEventId, typeList, setTypeList }) {
 
@@ -140,7 +139,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
           </div>
           <div className='add-event-element'>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker label="Event Time" name="Event Time" value={time === '' ? '' : dayjs('2000-01-01T' + time)} onChange={(newValue) => { setTime(newValue && newValue.$D ? newValue.format('HH:mm') : '');console.log(newValue && newValue.$D ? newValue.format('HH:mm') : '') }} />
+              <TimePicker label="Event Time" name="Event Time" value={time === '' ? '' : dayjs('2000-01-01T' + time)} onChange={(newValue) => { setTime(newValue && newValue.$D ? newValue.format('HH:mm') : ''); console.log(newValue && newValue.$D ? newValue.format('HH:mm') : '') }} />
             </LocalizationProvider>
           </div>
           <div className='add-event-element'>
