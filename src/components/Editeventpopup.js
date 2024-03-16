@@ -21,6 +21,8 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 export default function Editeventpopup({ events, setEvents, editingEventId, typeList, setTypeList }) {
 
@@ -118,8 +120,8 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Edit
+      <Button variant="contained" disableElevation size="small" onClick={handleClickOpen}>
+        <EditIcon fontSize="small"/>
       </Button>
       <Dialog
         open={dialogOpen}

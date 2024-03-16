@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Eventlists from './Eventlists';
 import Editeventpopup from "./Editeventpopup";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -6,8 +7,12 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import ClearIcon from '@mui/icons-material/Clear';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import CheckIcon from '@mui/icons-material/Check';
 
-export default function Eventlist({ events, setEvents, removeEvent, typeList, setTypeList }) {
+export default function Eventslist({ events, setEvents, removeEvent, typeList, setTypeList }) {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
@@ -57,9 +62,9 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
     }
   }
 
-  function typeOnChangeHandler(event) {
-    setSelectedType(event.target.value);
-  }
+  // function typeOnChangeHandler(index) {
+  //   setSelectedType(index);
+  // }
 
   function statusOnChangeHandler(event) {
     setSelectedStatus(event.target.value);
@@ -95,9 +100,9 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
 
   return (
     <>
-      <div>Filter</div>
+      <Eventlists events={events} typeList={typeList} setSelectedType={setSelectedType}/>
       <div>
-        <FormControl>
+        {/* <FormControl>
           <InputLabel id="type-lable">Type</InputLabel>
           <Select
             labelId="type-lable"
@@ -115,7 +120,7 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
               )
             )}
           </Select>
-        </FormControl>
+        </FormControl> */}
         <FormControl>
           <InputLabel id="status-lable">Status</InputLabel>
           <Select
@@ -151,10 +156,14 @@ export default function Eventlist({ events, setEvents, removeEvent, typeList, se
       {selectedEvents.map((element, index) => (
         <div key={element.id}>
           {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status} {element.type}
-          <button onClick={() => markAsInProgressHandler(element.id, index)}>Mark as in progress</button>
-          <button onClick={() => markAsDoneHandler(element.id, index)}>Mark as done</button>
+          <Button variant="outlined" size="small" onClick={() => markAsInProgressHandler(element.id, index)}><FastForwardIcon fontSize="small"/></Button>
+          <Button variant="outlined" size="small" color="success" onClick={() => markAsDoneHandler(element.id, index)}>
+            <CheckIcon fontSize="small"/>
+          </Button>
           <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
-          <button onClick={() => removeEvent(element.id)}>Remove</button>
+          <Button variant="contained" size="small" disableElevation color="error" onClick={() => removeEvent(element.id)}>
+            <ClearIcon fontSize="small"/>
+          </Button>
         </div>))}
     </>
   )
