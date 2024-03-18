@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import '../App.css';
+import dayjs from 'dayjs';
+import Button from '@mui/material/Button';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, events, setDate }) {
   const today = new Date();
@@ -52,11 +57,23 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
     setDaySwitcher(false);
   }
 
-  function datepickerOnchangeHandler(event) {
-    const dateString = event.target.value;
-    const yearNumber = Number(dateString.slice(0, 4))
-    const monthNumber = Number(dateString.charAt(5) === '0' ? dateString.charAt(6) : dateString.slice(5, 7)) - 1
-    const dateNumber = Number(dateString.charAt(8) === '0' ? dateString.charAt(9) : dateString.slice(8, 10))
+  // function datepickerOnchangeHandler(event) {
+  //   const dateString = event.target.value;
+  //   const yearNumber = Number(dateString.slice(0, 4))
+  //   const monthNumber = Number(dateString.charAt(5) === '0' ? dateString.charAt(6) : dateString.slice(5, 7)) - 1
+  //   const dateNumber = Number(dateString.charAt(8) === '0' ? dateString.charAt(9) : dateString.slice(8, 10))
+  //   setYearNumberFromDateObj(yearNumber);
+  //   setMonthNumberFromDateObj(monthNumber);
+  //   setDateNumberFromDateObj(dateNumber);
+  //   const temporaryDateObject = new Date(yearNumber, monthNumber, dateNumber);
+  //   setDate(new Date(yearNumber, monthNumber, dateNumber));
+  //   setMatchedEvents(events.filter((e) => (e.milliseconds >= temporaryDateObject.getTime() && e.milliseconds < (temporaryDateObject.getTime() + 86400000))));
+  // }
+
+  function datepickerOnchangeHandler(dayjsObject) {
+    const yearNumber = dayjsObject.year();
+    const monthNumber = dayjsObject.month();
+    const dateNumber = dayjsObject.date();
     setYearNumberFromDateObj(yearNumber);
     setMonthNumberFromDateObj(monthNumber);
     setDateNumberFromDateObj(dateNumber);
@@ -72,12 +89,17 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
   return (
     <>
       <div>
-        <button onClick={toLast}>Last</button>
-        <button onClick={toNext}>Next</button>
-        <button onClick={toToday}>Today</button>
-        <button onClick={toMonth}>Back to Month</button>
-        <button onClick={toWeek}>Back to Week</button>
-        <input type="date" name="date" required="required" value={`${yearNumberFromDateObj}-${monthNumberFromDateObj > 9 ? monthNumberFromDateObj + 1 : '0' + (monthNumberFromDateObj + 1)}-${dateNumberFromDateObj > 9 ? dateNumberFromDateObj : '0' + dateNumberFromDateObj}`} onChange={datepickerOnchangeHandler} onKeyDown={datepickerOnKeyDownHandler} />
+        <Button variant="outlined" onClick={toLast}>Last</Button>
+        <Button variant="outlined" onClick={toToday}>Today</Button>
+        <Button variant="outlined" onClick={toNext}>Next</Button>
+        <Button variant="outlined" onClick={toMonth}>Back to Month</Button>
+        <Button variant="outlined" onClick={toWeek}>Back to Week</Button>
+        <div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker label="Event Date" name="Event Date" format="DD/MM/YYYY" value={dayjs().year(yearNumberFromDateObj).month(monthNumberFromDateObj).date(dateNumberFromDateObj)} onKeyDown={datepickerOnKeyDownHandler} onChange={(newValue) => { datepickerOnchangeHandler(newValue) }} />
+          </LocalizationProvider>
+        </div>
+        {/* <input type="date" name="date" required="required" value={`${yearNumberFromDateObj}-${monthNumberFromDateObj > 9 ? monthNumberFromDateObj + 1 : '0' + (monthNumberFromDateObj + 1)}-${dateNumberFromDateObj > 9 ? dateNumberFromDateObj : '0' + dateNumberFromDateObj}`} onChange={datepickerOnchangeHandler} onKeyDown={datepickerOnKeyDownHandler} /> */}
       </div>
       <div>
         {date.getDate()} {months[date.getMonth()]} {date.getFullYear()}

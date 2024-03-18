@@ -1,5 +1,8 @@
 import '../App.css';
 import { useState } from 'react';
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 // new date object (for example: 06 Feb 2024)
 
@@ -150,7 +153,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
               return element0
             }
             return null
-          }).map((e, i) =><div key={i}>{e.name}</div>)
+          }).map((e, i) => <div key={i}>{e.name}</div>)
           )}
         </div> :
         <div className='date date-grey' key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
@@ -164,24 +167,28 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
   return (
     <>
       <div>
-        <button onClick={toLast}>Last</button>
-        <button onClick={toNext}>Next</button>
-        <button onClick={toToday}>Today</button>
+        <Button variant="outlined" onClick={toLast}>Last</Button>
+        <Button variant="outlined" onClick={toToday}>Today</Button>
+        <Button variant="outlined" onClick={toNext}>Next</Button>
         <input type="number" name="year" min="0" value={year} onChange={yearOnchangeHandler} />
-        <select name="selectMonth" value={month} onChange={monthOnchangeHandler}>
-          <option value={0}>{months[0]}</option>
-          <option value={1}>{months[1]}</option>
-          <option value={2}>{months[2]}</option>
-          <option value={3}>{months[3]}</option>
-          <option value={4}>{months[4]}</option>
-          <option value={5}>{months[5]}</option>
-          <option value={6}>{months[6]}</option>
-          <option value={7}>{months[7]}</option>
-          <option value={8}>{months[8]}</option>
-          <option value={9}>{months[9]}</option>
-          <option value={10}>{months[10]}</option>
-          <option value={11}>{months[11]}</option>
-        </select>
+        <Select
+          value={month}
+          onChange={monthOnchangeHandler}
+          size="small"
+        >
+          <MenuItem value={0}>{months[0]}</MenuItem>
+          <MenuItem value={1}>{months[1]}</MenuItem>
+          <MenuItem value={2}>{months[2]}</MenuItem>
+          <MenuItem value={3}>{months[3]}</MenuItem>
+          <MenuItem value={4}>{months[4]}</MenuItem>
+          <MenuItem value={5}>{months[5]}</MenuItem>
+          <MenuItem value={6}>{months[6]}</MenuItem>
+          <MenuItem value={7}>{months[7]}</MenuItem>
+          <MenuItem value={8}>{months[8]}</MenuItem>
+          <MenuItem value={9}>{months[9]}</MenuItem>
+          <MenuItem value={10}>{months[10]}</MenuItem>
+          <MenuItem value={11}>{months[11]}</MenuItem>
+        </Select>
       </div>
       <div>
         {months[date.getMonth()]} {date.getFullYear()}

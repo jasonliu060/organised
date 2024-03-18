@@ -1,5 +1,6 @@
 import '../App.css';
 import { useState } from 'react';
+import Button from '@mui/material/Button';
 
 export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, switchWeekToSelectedDay, events }) {
   const today = new Date();
@@ -9,7 +10,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   const [month] = useState(date.getMonth());
   const [year] = useState(date.getFullYear());
 
- 
+
 
   const dateOfSun = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   const dateOfSat = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
@@ -82,10 +83,10 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   return (
     <>
       <div>
-        <button onClick={toLast}>Last</button>
-        <button onClick={toNext}>Next</button>
-        <button onClick={toToday}>Today</button>
-        <button onClick={toMonth}>Back to Month</button>
+        <Button variant="outlined" onClick={toLast}>Last</Button>
+        <Button variant="outlined" onClick={toToday}>Today</Button>
+        <Button variant="outlined" onClick={toNext}>Next</Button>
+        <Button variant="outlined" onClick={toMonth}>Back to Month</Button>
       </div>
       <div>
         {dateOfSun.getDate()} {months[dateOfSun.getMonth()]} {dateOfSun.getFullYear()} ~ {dateOfSat.getDate()} {months[dateOfSat.getMonth()]} {dateOfSat.getFullYear()}

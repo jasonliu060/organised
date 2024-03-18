@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 export default function Eventlists({ events, typeList, setSelectedType }) {
   return (
     <div>
+      <div>Select List</div>
       <Button variant="outlined" onClick={() => setSelectedType('all')}>
         All
       </Button>
