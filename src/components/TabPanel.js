@@ -44,7 +44,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({events, setEvents}) {
+export default function BasicTabs({events, setEvents, removeEvent, typeList, setTypeList, addEvent}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -60,10 +60,10 @@ export default function BasicTabs({events, setEvents}) {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-      <Todolist events={events} setEvents={setEvents}/>
+      <Todolist events={events} setEvents={setEvents} removeEvent={removeEvent} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-      <Calendar events={events} setEvents={setEvents}/>
+      <Calendar events={events} setEvents={setEvents} removeEvent={removeEvent} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList} />
       </CustomTabPanel>
     </Box>
   );

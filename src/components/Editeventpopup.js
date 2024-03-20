@@ -26,7 +26,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export default function Editeventpopup({ events, setEvents, editingEventId, typeList, setTypeList }) {
 
-  const editingEvent = events.find(event => event.id === editingEventId);
+  const [editingEvent, setEditingEvent] = useState(events.find(event => event.id === editingEventId));
 
   const [name, setName] = useState(editingEvent.name);
   const [dateString, setDateString] = useState(editingEvent.dateString);

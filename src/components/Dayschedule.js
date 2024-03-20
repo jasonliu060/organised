@@ -5,23 +5,27 @@ import Button from '@mui/material/Button';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Calendareventslist from './Calendareventslist';
 
-export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, events, setDate }) {
+export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, events, setEvents, setDate, removeEvent, typeList, setTypeList }) {
   const today = new Date();
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))))
+  // const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))))
+
+  let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000)));
 
   const [monthNumberFromDateObj, setMonthNumberFromDateObj] = useState(date.getMonth());
   const [yearNumberFromDateObj, setYearNumberFromDateObj] = useState(date.getFullYear());
   const [dateNumberFromDateObj, setDateNumberFromDateObj] = useState(date.getDate());
 
+
   // controller function
   function toLast() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 1);
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000)));
     setYearNumberFromDateObj(date.getFullYear());
     setMonthNumberFromDateObj(date.getMonth());
     setDateNumberFromDateObj(date.getDate());
@@ -29,7 +33,7 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
 
   function toNext() {
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 1);
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000)));
     setYearNumberFromDateObj(date.getFullYear());
     setMonthNumberFromDateObj(date.getMonth());
     setDateNumberFromDateObj(date.getDate());
@@ -38,7 +42,7 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
 
   function toToday() {
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000)));
     setYearNumberFromDateObj(date.getFullYear());
     setMonthNumberFromDateObj(date.getMonth());
     setDateNumberFromDateObj(date.getDate());
@@ -79,7 +83,7 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
     setDateNumberFromDateObj(dateNumber);
     const temporaryDateObject = new Date(yearNumber, monthNumber, dateNumber);
     setDate(new Date(yearNumber, monthNumber, dateNumber));
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= temporaryDateObject.getTime() && e.milliseconds < (temporaryDateObject.getTime() + 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000)));
   }
 
   function datepickerOnKeyDownHandler() {
@@ -122,6 +126,7 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
           <div key={index}>{event.name} {event.dateString} {event.time}</div>
         )}
       </div>
+      <Calendareventslist date={date} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} />
     </>
   )
 }

@@ -45,10 +45,38 @@ function App() {
     time: '15:00'
   }]);
 
+  const [typeList, setTypeList] = useState([
+    'default'
+  ])
+
+  function removeEvent(id){
+    console.log(id);
+    setEvents(events.filter((element) => element.id !== id ))
+  }
+
+  function addEvent(name, milliseconds, dateString, time, url, priority, status, type){
+    const id = Math.floor(Math.random() * 1000000)
+    setEvents([
+      ...events,
+      {
+        id: id,
+        name: name,
+        milliseconds: milliseconds,
+        dateString: dateString,
+        time: time,
+        type: type,
+        priority: priority,
+        url: url,
+        status: status,
+      }
+    ])
+    console.log(events);
+  }
+
 
   return (
     <div className="App">
-      <TabPanel events={events} setEvents={setEvents}/>
+      <TabPanel events={events} setEvents={setEvents} removeEvent={removeEvent} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
       {/* <Switcher setSwitcher={setSwitcher}/>
       {switcher ? <Todolist events={events} setEvents={setEvents}/> : <Calendar events={events} setEvents={setEvents}/>} */}
     </div>

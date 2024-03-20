@@ -4,9 +4,8 @@ import Dayschedule from "./Dayschedule"
 import { useState } from 'react';
 
 
-export default function Calendar({events}) {
+export default function Calendar({events, setEvents, removeEvent, typeList, setTypeList}) {
   const [date, setDate] = useState(new Date());
-  
 
   const [monthSwitcher, setMonthSwitcher] = useState(true);
   const [weekSwitcher, setWeekSwitcher] = useState(false);
@@ -57,11 +56,11 @@ export default function Calendar({events}) {
 
   return (
     <div>
-      {monthSwitcher && <Monthschedule switchMonthToSelectedDay={switchMonthToSelectedDay} switchMonthToSelectedWeek={switchMonthToSelectedWeek} events={events} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+      {monthSwitcher && <Monthschedule switchMonthToSelectedDay={switchMonthToSelectedDay} switchMonthToSelectedWeek={switchMonthToSelectedWeek} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
 
-      {weekSwitcher && <Weekschedule switchWeekToSelectedDay={switchWeekToSelectedDay} events={events} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+      {weekSwitcher && <Weekschedule switchWeekToSelectedDay={switchWeekToSelectedDay} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
 
-      {daySwitcher && <Dayschedule date={date}  events={events} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+      {daySwitcher && <Dayschedule date={date}  events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
     </div>
   )
 }
