@@ -20,9 +20,10 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
   const [isHidden, setIsHidden] = useState(false);
   let selectedEvents = isHidden ? getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done') : getSelectedEvents(selectedType, selectedStatus, selectedPriority)
   // hideDone();
-  console.log(events);
-  console.log(matchedEvents)
-  console.log(selectedEvents);
+  console.log(selectedType);
+  // console.log(events);
+  // console.log(matchedEvents)
+  // console.log(selectedEvents);
 
 
   // function updateMatchedEvents(){
@@ -92,8 +93,8 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
     );
   }
 
-  function typeOnChangeHandler(index) {
-    setSelectedType(index);
+  function typeOnChangeHandler(event) {
+    setSelectedType(event.target.value);
   }
 
   function markAsDoneHandler(id, index) {
