@@ -1,11 +1,13 @@
 import '../App.css';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
+import Calendareventslist from './Calendareventslist';
 
-export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, switchWeekToSelectedDay, events }) {
+
+export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, switchWeekToSelectedDay, events, setEvents, removeEvent, typeList, setTypeList }) {
   const today = new Date();
 
-  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))))
+  let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000)));
 
   const [month] = useState(date.getMonth());
   const [year] = useState(date.getFullYear());
@@ -52,7 +54,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() + 7);
 
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000)))
   }
 
   function toLast() {
@@ -60,7 +62,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     date.setFullYear(date.getFullYear(), date.getMonth(), date.getDate() - 7);
 
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000)))
   }
 
   function toToday() {
@@ -68,7 +70,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
 
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000)))
   }
 
   function toMonth() {
@@ -123,6 +125,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
           <div key={index}>{event.name} {event.dateString} {event.time}</div>
         )}
       </div>
+      <Calendareventslist date={date} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} daysOfRange={7}/>
     </>
   )
 }

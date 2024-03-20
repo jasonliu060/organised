@@ -12,32 +12,13 @@ import ClearIcon from '@mui/icons-material/Clear';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import CheckIcon from '@mui/icons-material/Check';
 
-export default function Calendareventslist({ date, events, setEvents, removeEvent, typeList, setTypeList }) {
-  let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000)));
+export default function Calendareventslist({ date, events, setEvents, removeEvent, typeList, setTypeList, daysOfRange }) {
+  let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + daysOfRange * 86400000)));
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [isHidden, setIsHidden] = useState(false);
   let selectedEvents = isHidden ? getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done') : getSelectedEvents(selectedType, selectedStatus, selectedPriority)
-  // hideDone();
-  console.log(selectedType);
-  // console.log(events);
-  // console.log(matchedEvents)
-  // console.log(selectedEvents);
-
-
-  // function updateMatchedEvents(){
-  //   setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))))
-  //   setSelectedEvents((isHidden ? getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done') : getSelectedEvents(selectedType, selectedStatus, selectedPriority)))
-  // }
-
-  // function hideDone() {
-  //   if (isHidden) {
-  //     setSelectedEvents(getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done'))
-  //   } else {
-  //     setSelectedEvents(getSelectedEvents(selectedType, selectedStatus, selectedPriority))
-  //   }
-  // }
 
   function getSelectedEvents(theSelectedType, theSelectedStatus, theSelectedPriority) {
     if (theSelectedType === 'all' && theSelectedPriority === 'all' && theSelectedStatus === 'all') {

@@ -3,10 +3,12 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Calendareventslist from './Calendareventslist';
+
 
 // new date object (for example: 06 Feb 2024)
 
-export default function Monthschedule({ date, setDate, events, switchMonthToSelectedWeek, switchMonthToSelectedDay }) {
+export default function Monthschedule({ date, setDate, events, switchMonthToSelectedWeek, switchMonthToSelectedDay, setEvents, removeEvent, typeList, setTypeList }) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const today = new Date();
@@ -21,7 +23,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
 
   const [dates, setDates] = useState(getDates());
 
-  const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))))
+  let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000)));
 
   function getParameter() {
     // for example: date - 06/02/2024
@@ -97,7 +99,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     date.setFullYear(date.getFullYear(), date.getMonth() + 1, 1);
     getParameter();
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000)))
     setYear(date.getFullYear());
     setMonth(date.getMonth());
   }
@@ -107,7 +109,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     date.setFullYear(date.getFullYear(), date.getMonth() - 1, 1);
     getParameter();
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000)))
     setYear(date.getFullYear());
     setMonth(date.getMonth());
   }
@@ -116,7 +118,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     date.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
     getParameter();
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000)));
     setYear(date.getFullYear());
     setMonth(date.getMonth());
   }
@@ -127,7 +129,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     date.setFullYear(yearInput, date.getMonth(), date.getDate())
     getParameter();
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000)));
     // console.log(yearInput, date, dates)
   }
 
@@ -137,7 +139,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     date.setFullYear(date.getFullYear(), monthInput, date.getDate())
     getParameter();
     setDates(generateDatesArray());
-    setMatchedEvents(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000))));
+    matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + dateQuantity * 86400000)));
     console.log(monthInput, date)
   }
 
@@ -220,6 +222,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
           <div key={index}>{event.name} {event.dateString} {event.time}</div>
         )}
       </div>
+      <Calendareventslist date={date} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} daysOfRange={dateQuantity}/>
     </>
   )
 }

@@ -7,13 +7,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Calendareventslist from './Calendareventslist';
 
-export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, events, setEvents, setDate, removeEvent, typeList, setTypeList }) {
+export default function Dayschedule({ date, setDate, setDaySwitcher, setMonthSwitcher, setWeekSwitcher, events, setEvents, removeEvent, typeList, setTypeList }) {
   const today = new Date();
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-  // const [matchedEvents, setMatchedEvents] = useState(events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))))
 
   let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000)));
 
@@ -60,19 +58,6 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
     setWeekSwitcher(true);
     setDaySwitcher(false);
   }
-
-  // function datepickerOnchangeHandler(event) {
-  //   const dateString = event.target.value;
-  //   const yearNumber = Number(dateString.slice(0, 4))
-  //   const monthNumber = Number(dateString.charAt(5) === '0' ? dateString.charAt(6) : dateString.slice(5, 7)) - 1
-  //   const dateNumber = Number(dateString.charAt(8) === '0' ? dateString.charAt(9) : dateString.slice(8, 10))
-  //   setYearNumberFromDateObj(yearNumber);
-  //   setMonthNumberFromDateObj(monthNumber);
-  //   setDateNumberFromDateObj(dateNumber);
-  //   const temporaryDateObject = new Date(yearNumber, monthNumber, dateNumber);
-  //   setDate(new Date(yearNumber, monthNumber, dateNumber));
-  //   setMatchedEvents(events.filter((e) => (e.milliseconds >= temporaryDateObject.getTime() && e.milliseconds < (temporaryDateObject.getTime() + 86400000))));
-  // }
 
   function datepickerOnchangeHandler(dayjsObject) {
     const yearNumber = dayjsObject.year();
@@ -126,7 +111,7 @@ export default function Dayschedule({ date, setDaySwitcher, setMonthSwitcher, se
           <div key={index}>{event.name} {event.dateString} {event.time}</div>
         )}
       </div>
-      <Calendareventslist date={date} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} />
+      <Calendareventslist date={date} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} daysOfRange={1}/>
     </>
   )
 }
