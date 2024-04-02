@@ -11,6 +11,13 @@ import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import CheckIcon from '@mui/icons-material/Check';
+// responsive design
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { Paper } from "@mui/material";
+import Typography from '@mui/material/Typography';
+
 
 export default function Eventslist({ events, setEvents, removeEvent, typeList, setTypeList }) {
   const [selectedType, setSelectedType] = useState('all');
@@ -18,9 +25,6 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [isHidden, setIsHidden] = useState(false);
   const selectedEvents = hideDone();
-  // const [isEditing, setIsEditing] = useState(false);
-  // const [editingEventId, setEditingEventId] = useState(0);
-
 
   function hideDone() {
     if (isHidden) {
@@ -100,71 +104,65 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
 
   return (
     <>
-      <Eventlists events={events} typeList={typeList} setSelectedType={setSelectedType}/>
-      <div>
-        {/* <FormControl>
-          <InputLabel id="type-lable">Type</InputLabel>
-          <Select
-            labelId="type-lable"
-            id="type"
-            value={selectedType}
-            label="Type"
-            onChange={typeOnChangeHandler}
-          >
-            <MenuItem value='all'>All</MenuItem>
-            {typeList.map(
-              (element, index) => (
-                <MenuItem value={element} key={index}>
-                  {element}
-                </MenuItem>
-              )
-            )}
-          </Select>
-        </FormControl> */}
-        <FormControl>
-          <InputLabel id="status-lable">Status</InputLabel>
-          <Select
-            labelId="status-lable"
-            id="status"
-            value={selectedStatus}
-            label="Status"
-            onChange={statusOnChangeHandler}
-          >
-            <MenuItem value='all'>All</MenuItem>
-            <MenuItem value='todo'>To Do</MenuItem>
-            <MenuItem value='inprogress'>In Progress</MenuItem>
-            <MenuItem value='done'>Done</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel id="priority-lable">Priority</InputLabel>
-          <Select
-            labelId="priority-lable"
-            id="priority"
-            value={selectedPriority}
-            label="Priority"
-            onChange={priorityOnChangeHandler}
-          >
-            <MenuItem value='all'>All</MenuItem>
-            <MenuItem value='high'>High</MenuItem>
-            <MenuItem value='medium'>Medium</MenuItem>
-            <MenuItem value='low'>Low</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" />
-      </div>
-      {selectedEvents.map((element, index) => (
-        <div key={element.id}>
-          {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status} {element.type}
-          <Button variant="outlined" size="small" onClick={() => markAsInProgressHandler(element.id, index)}><FastForwardIcon fontSize="small"/></Button>
-          <Button variant="outlined" size="small" color="success" onClick={() => markAsDoneHandler(element.id, index)}>
-            <CheckIcon fontSize="small"/>
-          </Button>
-          <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
-          <Button variant="contained" size="small" disableElevation color="error" onClick={() => removeEvent(element.id)}>
-            <ClearIcon fontSize="small"/>
-          </Button>
-        </div>))}
+      <Grid container columnSpacing={3} rowSpacing={3}>
+        <Grid item sm={6} sx={{ width:1}}>
+          <Box display={"inline-block"} sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%'}}>
+            <Eventlists events={events} typeList={typeList} setSelectedType={setSelectedType} />
+          </Box>
+        </Grid>
+        <Grid item sm={6} sx={{ width: 1 }}>
+          <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%'}}>
+            <Typography variant="h6" gutterBottom>
+              Events
+            </Typography>
+            <FormControl>
+              <InputLabel id="status-lable">Status</InputLabel>
+              <Select
+                labelId="status-lable"
+                id="status"
+                value={selectedStatus}
+                label="Status"
+                onChange={statusOnChangeHandler}
+              >
+                <MenuItem value='all'>All</MenuItem>
+                <MenuItem value='todo'>To Do</MenuItem>
+                <MenuItem value='inprogress'>In Progress</MenuItem>
+                <MenuItem value='done'>Done</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel id="priority-lable">Priority</InputLabel>
+              <Select
+                labelId="priority-lable"
+                id="priority"
+                value={selectedPriority}
+                label="Priority"
+                onChange={priorityOnChangeHandler}
+              >
+                <MenuItem value='all'>All</MenuItem>
+                <MenuItem value='high'>High</MenuItem>
+                <MenuItem value='medium'>Medium</MenuItem>
+                <MenuItem value='low'>Low</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" />
+
+
+            {selectedEvents.map((element, index) => (
+              <div key={element.id}>
+                {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status} {element.type}
+                <Button variant="outlined" size="small" onClick={() => markAsInProgressHandler(element.id, index)}><FastForwardIcon fontSize="small" /></Button>
+                <Button variant="outlined" size="small" color="success" onClick={() => markAsDoneHandler(element.id, index)}>
+                  <CheckIcon fontSize="small" />
+                </Button>
+                <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
+                <Button variant="contained" size="small" disableElevation color="error" onClick={() => removeEvent(element.id)}>
+                  <ClearIcon fontSize="small" />
+                </Button>
+              </div>))}
+          </Box>
+        </Grid>
+      </Grid>
     </>
   )
 }

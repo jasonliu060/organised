@@ -21,6 +21,8 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function FormDialog({ addEvent, typeList, setTypeList }) {
   const [name, setName] = useState('');
@@ -99,9 +101,9 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add Event
-      </Button>
+      <Fab color="primary" onClick={handleClickOpen} style={{position: 'fixed', bottom: 40, right: 40}}>
+        <AddIcon />
+      </Fab>
       <Dialog
         open={dialogOpen}
         onClose={handleClose}
