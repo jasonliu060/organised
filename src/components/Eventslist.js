@@ -12,14 +12,15 @@ import ClearIcon from '@mui/icons-material/Clear';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import CheckIcon from '@mui/icons-material/Check';
 // responsive design
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { Paper } from "@mui/material";
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+
 
 
 export default function Eventslist({ events, setEvents, removeEvent, typeList, setTypeList }) {
+  console.log(events);
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
@@ -82,15 +83,35 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
     isHidden ? setIsHidden(false) : setIsHidden(true)
   }
 
-  function markAsInProgressHandler(id, index) {
-    selectedEvents[index].status = 'inprogress';
-    const obj = selectedEvents[index];
-    setEvents(
-      events.map((event) => (
-        event.id === id ? obj : event
-      ))
-    );
+  function isDoneHandler(status, id, index) {
+    if (status === 'done') {
+      selectedEvents[index].status = 'todo';
+      const obj = selectedEvents[index];
+      setEvents(
+        events.map((event) => (
+          event.id === id ? obj : event
+        ))
+      );
+    } else {
+      selectedEvents[index].status = 'done';
+      const obj = selectedEvents[index];
+      setEvents(
+        events.map((event) => (
+          event.id === id ? obj : event
+        ))
+      );
+    }
   }
+
+  // function markAsInProgressHandler(id, index) {
+  //   selectedEvents[index].status = 'inprogress';
+  //   const obj = selectedEvents[index];
+  //   setEvents(
+  //     events.map((event) => (
+  //       event.id === id ? obj : event
+  //     ))
+  //   );
+  // }
 
   function markAsDoneHandler(id, index) {
     selectedEvents[index].status = 'done';
@@ -105,17 +126,17 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
   return (
     <>
       <Grid container columnSpacing={3} rowSpacing={3}>
-        <Grid item sm={6} sx={{ width:1}}>
-          <Box display={"inline-block"} sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%'}}>
+        <Grid item sm={6} sx={{ width: 1 }}>
+          <Box display={"inline-block"} sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%' }}>
             <Eventlists events={events} typeList={typeList} setSelectedType={setSelectedType} />
           </Box>
         </Grid>
         <Grid item sm={6} sx={{ width: 1 }}>
-          <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%'}}>
+          <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%' }}>
             <Typography variant="h6" gutterBottom>
               Events
             </Typography>
-            <FormControl>
+            {/* <FormControl>
               <InputLabel id="status-lable">Status</InputLabel>
               <Select
                 labelId="status-lable"
@@ -129,8 +150,8 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
                 <MenuItem value='inprogress'>In Progress</MenuItem>
                 <MenuItem value='done'>Done</MenuItem>
               </Select>
-            </FormControl>
-            <FormControl>
+            </FormControl> */}
+            <FormControl sx={{ mt: 2 }}>
               <InputLabel id="priority-lable">Priority</InputLabel>
               <Select
                 labelId="priority-lable"
@@ -145,21 +166,25 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
                 <MenuItem value='low'>Low</MenuItem>
               </Select>
             </FormControl>
-            <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" />
+            <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 3 }} />
 
 
             {selectedEvents.map((element, index) => (
-              <div key={element.id}>
-                {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status} {element.type}
-                <Button variant="outlined" size="small" onClick={() => markAsInProgressHandler(element.id, index)}><FastForwardIcon fontSize="small" /></Button>
-                <Button variant="outlined" size="small" color="success" onClick={() => markAsDoneHandler(element.id, index)}>
-                  <CheckIcon fontSize="small" />
-                </Button>
+              <Box key={element.id} sx={{ mt: 3 }}>
+                <Box sx={{ mt: 1 }}>
+                  {/* <IconButton size="large" color="success" onClick={() => markAsDoneHandler(element.id, index)} sx={{ mr: 1 }}>
+                    <CheckIcon fontSize="small" />
+                  </IconButton> */}
+                  <Checkbox checked={element.status === 'done' ? true : false} onChange={() => isDoneHandler(element.status, element.id, index)} sx={{ mr: 1 }} />
+                  {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status}
+                </Box>
+                {/* <IconButton size="large" onClick={() => markAsInProgressHandler(element.id, index)} sx={{mr:1}}><FastForwardIcon fontSize="small" /></IconButton> */}
+
                 <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
-                <Button variant="contained" size="small" disableElevation color="error" onClick={() => removeEvent(element.id)}>
+                <IconButton size="medium" color="error" onClick={() => removeEvent(element.id)} sx={{ mr: 1 }}>
                   <ClearIcon fontSize="small" />
-                </Button>
-              </div>))}
+                </IconButton>
+              </Box>))}
           </Box>
         </Grid>
       </Grid>

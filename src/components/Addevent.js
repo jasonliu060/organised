@@ -144,7 +144,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
               </Select>
             </FormControl>
           </div>
-          <div className='add-event-element'>
+          {/* <div className='add-event-element'>
             <FormControl>
               <InputLabel id="status-lable">Status</InputLabel>
               <Select
@@ -159,7 +159,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
                 <MenuItem value="done">Done</MenuItem>
               </Select>
             </FormControl>
-          </div>
+          </div> */}
           <div className='add-event-element type-input-container'>
             <FormControl>
               <InputLabel id="type-lable">Type</InputLabel>

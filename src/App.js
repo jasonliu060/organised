@@ -29,7 +29,7 @@ function App() {
     type: 'default',
     priority: 'high',
     url: '',
-    status: 'inprogress',
+    status: 'todo',
     milliseconds: 1708347600000,
     dateString: '2024-02-20',
     time: '15:00'

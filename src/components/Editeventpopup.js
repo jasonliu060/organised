@@ -24,6 +24,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 
 
+
 export default function Editeventpopup({ events, setEvents, editingEventId, typeList, setTypeList }) {
 
   const [editingEvent, setEditingEvent] = useState(events.find(event => event.id === editingEventId));
@@ -120,9 +121,9 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
 
   return (
     <React.Fragment>
-      <Button variant="contained" disableElevation size="small" onClick={handleClickOpen}>
+      <IconButton color='primary' size="medium" onClick={handleClickOpen} sx={{mr:1}}>
         <EditIcon fontSize="small"/>
-      </Button>
+      </IconButton>
       <Dialog
         open={dialogOpen}
         onClose={handleClose}
@@ -163,7 +164,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
               </Select>
             </FormControl>
           </div>
-          <div className='add-event-element'>
+          {/* <div className='add-event-element'>
             <FormControl>
               <InputLabel id="status-lable">Status</InputLabel>
               <Select
@@ -178,7 +179,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
                 <MenuItem value="done">Done</MenuItem>
               </Select>
             </FormControl>
-          </div>
+          </div> */}
           <div className='add-event-element type-input-container'>
             <FormControl>
               <InputLabel id="type-lable">Type</InputLabel>
