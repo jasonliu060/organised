@@ -9,8 +9,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import CheckIcon from '@mui/icons-material/Check';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
 
 export default function Calendareventslist({ date, events, setEvents, removeEvent, typeList, setTypeList, daysOfRange }) {
   let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + daysOfRange * 86400000)));
@@ -19,6 +20,8 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [isHidden, setIsHidden] = useState(false);
   let selectedEvents = isHidden ? getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done') : getSelectedEvents(selectedType, selectedStatus, selectedPriority)
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   function getSelectedEvents(theSelectedType, theSelectedStatus, theSelectedPriority) {
     if (theSelectedType === 'all' && theSelectedPriority === 'all' && theSelectedStatus === 'all') {
@@ -52,10 +55,6 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
     }
   }
 
-  function statusOnChangeHandler(event) {
-    setSelectedStatus(event.target.value);
-  }
-
   function priorityOnChangeHandler(event) {
     setSelectedPriority(event.target.value);
   }
@@ -64,102 +63,92 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
     isHidden ? setIsHidden(false) : setIsHidden(true)
   }
 
-  function markAsInProgressHandler(id, index) {
-    selectedEvents[index].status = 'inprogress';
-    const obj = selectedEvents[index];
-    setEvents(
-      events.map((event) => (
-        event.id === id ? obj : event
-      ))
-    );
+  function isDoneHandler(status, id, index) {
+    if (status === 'done') {
+      selectedEvents[index].status = 'todo';
+      const obj = selectedEvents[index];
+      setEvents(
+        events.map((event) => (
+          event.id === id ? obj : event
+        ))
+      );
+    } else {
+      selectedEvents[index].status = 'done';
+      const obj = selectedEvents[index];
+      setEvents(
+        events.map((event) => (
+          event.id === id ? obj : event
+        ))
+      );
+    }
   }
 
   function typeOnChangeHandler(event) {
     setSelectedType(event.target.value);
   }
 
-  function markAsDoneHandler(id, index) {
-    selectedEvents[index].status = 'done';
-    const obj = selectedEvents[index];
-    setEvents(
-      events.map((event) => (
-        event.id === id ? obj : event
-      ))
-    );
-  }
-
-  function removeEventHandler(id){
-    removeEvent(id);
-    matchedEvents = (events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
-    selectedEvents = isHidden ? getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done') : getSelectedEvents(selectedType, selectedStatus, selectedPriority)
-  }
+  // function removeEventHandler(id) {
+  //   removeEvent(id);
+  //   matchedEvents = (events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 86400000))));
+  //   selectedEvents = isHidden ? getSelectedEvents(selectedType, selectedStatus, selectedPriority).filter(event => event.status !== 'done') : getSelectedEvents(selectedType, selectedStatus, selectedPriority)
+  // }
 
   return (
     <>
-      <div>
-        <FormControl>
-          <InputLabel id="type-lable">Type</InputLabel>
-          <Select
-            labelId="type-lable"
-            id="type"
-            value={selectedType}
-            label="Type"
-            onChange={typeOnChangeHandler}
-          >
-            <MenuItem value='all'>All</MenuItem>
-            {typeList.map(
-              (element, index) => (
-                <MenuItem value={element} key={index}>
-                  {element}
-                </MenuItem>
-              )
-            )}
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel id="status-lable">Status</InputLabel>
-          <Select
-            labelId="status-lable"
-            id="status"
-            value={selectedStatus}
-            label="Status"
-            onChange={statusOnChangeHandler}
-          >
-            <MenuItem value='all'>All</MenuItem>
-            <MenuItem value='todo'>To Do</MenuItem>
-            <MenuItem value='inprogress'>In Progress</MenuItem>
-            <MenuItem value='done'>Done</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel id="priority-lable">Priority</InputLabel>
-          <Select
-            labelId="priority-lable"
-            id="priority"
-            value={selectedPriority}
-            label="Priority"
-            onChange={priorityOnChangeHandler}
-          >
-            <MenuItem value='all'>All</MenuItem>
-            <MenuItem value='high'>High</MenuItem>
-            <MenuItem value='medium'>Medium</MenuItem>
-            <MenuItem value='low'>Low</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" />
-      </div>
+      <Typography variant="h6" gutterBottom>
+        Events
+      </Typography>
+      <FormControl sx={{ mt: 2 }}>
+        <InputLabel id="type-lable">Type</InputLabel>
+        <Select
+          labelId="type-lable"
+          id="type"
+          value={selectedType}
+          label="Type"
+          onChange={typeOnChangeHandler}
+        >
+          <MenuItem value='all'>All</MenuItem>
+          {typeList.map(
+            (element, index) => (
+              <MenuItem value={element} key={index}>
+                {element}
+              </MenuItem>
+            )
+          )}
+        </Select>
+      </FormControl>
+      <FormControl sx={{ mt: 2, pl: 2 }}>
+        <InputLabel id="priority-lable" sx={{ pl: 2.5 }}>Priority</InputLabel>
+        <Select
+          labelId="priority-lable"
+          id="priority"
+          value={selectedPriority}
+          label="Priority"
+          onChange={priorityOnChangeHandler}
+        >
+          <MenuItem value='all'>All</MenuItem>
+          <MenuItem value='high'>High</MenuItem>
+          <MenuItem value='medium'>Medium</MenuItem>
+          <MenuItem value='low'>Low</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 3 }}/>
       {selectedEvents.map((element, index) => (
-        <div key={element.id}>
-          {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status} {element.type}
-          <Button variant="outlined" size="small" onClick={() => markAsInProgressHandler(element.id, index)}><FastForwardIcon fontSize="small" /></Button>
-          <Button variant="outlined" size="small" color="success" onClick={() => markAsDoneHandler(element.id, index)}>
-            <CheckIcon fontSize="small" />
-          </Button>
-          <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
-          <Button variant="contained" size="small" disableElevation color="error" onClick={()=>removeEventHandler(element.id)}>
-            <ClearIcon fontSize="small" />
-          </Button>
-        </div>))}
+        <Box key={element.id} sx={{ mt: 1 }}>
+        <Box key={element.id} sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ mt: 1 }}>
+            <Checkbox checked={element.status === 'done' ? true : false} onChange={() => isDoneHandler(element.status, element.id, index)} />
+            {element.name}
+          </Box>
+          <Box sx={{ mt: 1 }}>
+            <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
+            <IconButton size="medium" color="error" onClick={() => removeEvent(element.id)} sx={{ mr: 1 }}>
+              <ClearIcon fontSize="small" />
+            </IconButton>
+          </Box>
+        </Box>
+        {months[Number(element.dateString.slice(5, 7)) - 1]} {element.dateString.slice(8, 10)} {element.time} {element.url} {element.priority}
+      </Box>))}
     </>
   )
 }

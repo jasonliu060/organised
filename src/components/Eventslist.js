@@ -9,9 +9,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import CheckIcon from '@mui/icons-material/Check';
-// responsive design
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -20,12 +17,13 @@ import IconButton from '@mui/material/IconButton';
 
 
 export default function Eventslist({ events, setEvents, removeEvent, typeList, setTypeList }) {
-  console.log(events);
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [isHidden, setIsHidden] = useState(false);
   const selectedEvents = hideDone();
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   function hideDone() {
     if (isHidden) {
@@ -67,14 +65,6 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
     }
   }
 
-  // function typeOnChangeHandler(index) {
-  //   setSelectedType(index);
-  // }
-
-  function statusOnChangeHandler(event) {
-    setSelectedStatus(event.target.value);
-  }
-
   function priorityOnChangeHandler(event) {
     setSelectedPriority(event.target.value);
   }
@@ -103,26 +93,6 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
     }
   }
 
-  // function markAsInProgressHandler(id, index) {
-  //   selectedEvents[index].status = 'inprogress';
-  //   const obj = selectedEvents[index];
-  //   setEvents(
-  //     events.map((event) => (
-  //       event.id === id ? obj : event
-  //     ))
-  //   );
-  // }
-
-  function markAsDoneHandler(id, index) {
-    selectedEvents[index].status = 'done';
-    const obj = selectedEvents[index];
-    setEvents(
-      events.map((event) => (
-        event.id === id ? obj : event
-      ))
-    );
-  }
-
   return (
     <>
       <Grid container columnSpacing={3} rowSpacing={3}>
@@ -136,21 +106,6 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
             <Typography variant="h6" gutterBottom>
               Events
             </Typography>
-            {/* <FormControl>
-              <InputLabel id="status-lable">Status</InputLabel>
-              <Select
-                labelId="status-lable"
-                id="status"
-                value={selectedStatus}
-                label="Status"
-                onChange={statusOnChangeHandler}
-              >
-                <MenuItem value='all'>All</MenuItem>
-                <MenuItem value='todo'>To Do</MenuItem>
-                <MenuItem value='inprogress'>In Progress</MenuItem>
-                <MenuItem value='done'>Done</MenuItem>
-              </Select>
-            </FormControl> */}
             <FormControl sx={{ mt: 2 }}>
               <InputLabel id="priority-lable">Priority</InputLabel>
               <Select
@@ -167,24 +122,23 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
               </Select>
             </FormControl>
             <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 3 }} />
-
-
             {selectedEvents.map((element, index) => (
-              <Box key={element.id} sx={{ mt: 3 }}>
-                <Box sx={{ mt: 1 }}>
-                  {/* <IconButton size="large" color="success" onClick={() => markAsDoneHandler(element.id, index)} sx={{ mr: 1 }}>
-                    <CheckIcon fontSize="small" />
-                  </IconButton> */}
-                  <Checkbox checked={element.status === 'done' ? true : false} onChange={() => isDoneHandler(element.status, element.id, index)} sx={{ mr: 1 }} />
-                  {element.name} {element.dateString} {element.time} {element.url} {element.priority} {element.status}
+              <Box key={element.id} sx={{ mt: 1 }}>
+                <Box key={element.id} sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Box sx={{ mt: 1 }}>
+                    <Checkbox checked={element.status === 'done' ? true : false} onChange={() => isDoneHandler(element.status, element.id, index)} />
+                    {element.name}
+                  </Box>
+                  <Box sx={{ mt: 1 }}>
+                    <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
+                    <IconButton size="medium" color="error" onClick={() => removeEvent(element.id)} sx={{ mr: 1 }}>
+                      <ClearIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
                 </Box>
-                {/* <IconButton size="large" onClick={() => markAsInProgressHandler(element.id, index)} sx={{mr:1}}><FastForwardIcon fontSize="small" /></IconButton> */}
-
-                <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
-                <IconButton size="medium" color="error" onClick={() => removeEvent(element.id)} sx={{ mr: 1 }}>
-                  <ClearIcon fontSize="small" />
-                </IconButton>
-              </Box>))}
+                {months[Number(element.dateString.slice(5, 7)) - 1]} {element.dateString.slice(8, 10)} {element.time} {element.url} {element.priority}
+              </Box>
+            ))}
           </Box>
         </Grid>
       </Grid>

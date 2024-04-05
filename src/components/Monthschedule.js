@@ -4,6 +4,14 @@ import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Calendareventslist from './Calendareventslist';
+import { Box } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
 
 // new date object (for example: 06 Feb 2024)
@@ -167,62 +175,84 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
 
 
   return (
-    <>
-      <div>
-        <Button variant="outlined" onClick={toLast}>Last</Button>
-        <Button variant="outlined" onClick={toToday}>Today</Button>
-        <Button variant="outlined" onClick={toNext}>Next</Button>
-        <input type="number" name="year" min="0" value={year} onChange={yearOnchangeHandler} />
-        <Select
-          value={month}
-          onChange={monthOnchangeHandler}
-          size="small"
-        >
-          <MenuItem value={0}>{months[0]}</MenuItem>
-          <MenuItem value={1}>{months[1]}</MenuItem>
-          <MenuItem value={2}>{months[2]}</MenuItem>
-          <MenuItem value={3}>{months[3]}</MenuItem>
-          <MenuItem value={4}>{months[4]}</MenuItem>
-          <MenuItem value={5}>{months[5]}</MenuItem>
-          <MenuItem value={6}>{months[6]}</MenuItem>
-          <MenuItem value={7}>{months[7]}</MenuItem>
-          <MenuItem value={8}>{months[8]}</MenuItem>
-          <MenuItem value={9}>{months[9]}</MenuItem>
-          <MenuItem value={10}>{months[10]}</MenuItem>
-          <MenuItem value={11}>{months[11]}</MenuItem>
-        </Select>
-      </div>
-      <div>
-        {months[date.getMonth()]} {date.getFullYear()}
-      </div>
-      <div className="days">
-        <span className='day'>Sun</span>
-        <span className='day'>Mon</span>
-        <span className='day'>Tue</span>
-        <span className='day'>Wed</span>
-        <span className='day'>Thu</span>
-        <span className='day'>Fri</span>
-        <span className='day'>Sat</span>
-      </div>
-      <div className="week" onClick={() => switchMonthToSelectedWeek(0, dates[0].dateNumber)}>{jsx.filter((e, i) => i < 7)}
-      </div>
-      <div className="week" onClick={() => switchMonthToSelectedWeek(7, dates[7].dateNumber)}>{jsx.filter((e, index) => index > 6 && index < 14)}
-      </div>
-      <div className="week" onClick={() => switchMonthToSelectedWeek(14, dates[14].dateNumber)}>{jsx.filter((e, index) => index > 13 && index < 21)}
-      </div>
-      <div className="week" onClick={() => switchMonthToSelectedWeek(21, dates[21].dateNumber)}>{jsx.filter((e, index) => index > 20 && index < 28)}
-      </div>
-      {weekQuantity > 4 && <div className="week" onClick={() => switchMonthToSelectedWeek(28, dates[28].dateNumber)}>{jsx.filter((e, index) => index > 27 && index < 35)}
-      </div>}
-      {weekQuantity > 5 &&
-        <div className="week" onClick={() => switchMonthToSelectedWeek(35, dates[35].dateNumber)}>{jsx.filter((e, index) => index > 34 && index < 42)}
-        </div>}
-      <div>
-        {matchedEvents.map((event, index) =>
-          <div key={index}>{event.name} {event.dateString} {event.time}</div>
-        )}
-      </div>
-      <Calendareventslist date={date} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} daysOfRange={dateQuantity}/>
-    </>
+    <Grid container columnSpacing={3} rowSpacing={3}>
+      <Grid item sm={6} sx={{ width: 1 }}>
+        <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4 }}>
+          <Box>
+            {/* <Button variant="outlined" onClick={toLast} size='medium' sx={{ mr: 1 }}>Last</Button>
+            <Button variant="outlined" onClick={toToday} size='medium' sx={{ mr: 1 }}>Today</Button>
+            <Button variant="outlined" onClick={toNext} size='medium' sx={{ mr: 2 }}>Next</Button> */}
+            <Box>
+              <TextField  label="Year" type="number" size='small' value={year} onChange={yearOnchangeHandler} sx={{ width: 108, mr: 1 }} />
+              <FormControl>
+              <InputLabel id="month-lable">Month</InputLabel>
+              <Select
+                labelId="month-lable"
+                id="month"
+                value={month}
+                label="Month"
+                onChange={monthOnchangeHandler}
+                size="small"
+              >
+                <MenuItem value={0}>{months[0]}</MenuItem>
+                <MenuItem value={1}>{months[1]}</MenuItem>
+                <MenuItem value={2}>{months[2]}</MenuItem>
+                <MenuItem value={3}>{months[3]}</MenuItem>
+                <MenuItem value={4}>{months[4]}</MenuItem>
+                <MenuItem value={5}>{months[5]}</MenuItem>
+                <MenuItem value={6}>{months[6]}</MenuItem>
+                <MenuItem value={7}>{months[7]}</MenuItem>
+                <MenuItem value={8}>{months[8]}</MenuItem>
+                <MenuItem value={9}>{months[9]}</MenuItem>
+                <MenuItem value={10}>{months[10]}</MenuItem>
+                <MenuItem value={11}>{months[11]}</MenuItem>
+              </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ mt:1 }}>
+              <ButtonGroup size="medium" variant="outlined">
+                <Button onClick={toLast}><KeyboardArrowLeftIcon /></Button>
+                <Button onClick={toToday}>Today</Button>
+                <Button onClick={toNext}><KeyboardArrowRightIcon /></Button>
+              </ButtonGroup>
+            </Box>
+          </Box>
+          <Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 4, textAlign: 'center' }}>
+              <Box sx={{ width: 30 }}>Sun</Box>
+              <Box sx={{ width: 30 }}>Mon</Box>
+              <Box sx={{ width: 30 }}>Tue</Box>
+              <Box sx={{ width: 30 }}>Wed</Box>
+              <Box sx={{ width: 30 }}>Thu</Box>
+              <Box sx={{ width: 30 }}>Fri</Box>
+              <Box sx={{ width: 30 }}>Sat</Box>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))":{border: 1, borderRadius: 10} }} onClick={() => switchMonthToSelectedWeek(0, dates[0].dateNumber)}>
+              {jsx.filter((e, i) => i < 7).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))":{border: 1, borderRadius: 10} }} onClick={() => switchMonthToSelectedWeek(7, dates[7].dateNumber)}>
+              {jsx.filter((e, i) => i > 6 && i < 14).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))":{border: 1, borderRadius: 10} }} onClick={() => switchMonthToSelectedWeek(14, dates[14].dateNumber)}>
+              {jsx.filter((e, i) => i > 13 && i < 21).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))":{border: 1, borderRadius: 10} }} onClick={() => switchMonthToSelectedWeek(21, dates[21].dateNumber)}>
+              {jsx.filter((e, i) => i > 20 && i < 28).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
+            </Box>
+            {weekQuantity > 4 && <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))":{border: 1, borderRadius: 10} }} onClick={() => switchMonthToSelectedWeek(28, dates[28].dateNumber)}>
+              {jsx.filter((e, i) => i > 27 && i < 35).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
+            </Box>}
+            {weekQuantity > 5 && <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))":{border: 1, borderRadius: 10} }} onClick={() => switchMonthToSelectedWeek(35, dates[35].dateNumber)}>
+              {jsx.filter((e, i) => i > 34 && i < 42).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
+            </Box>}
+          </Box>
+        </Box>
+      </Grid>
+      <Grid item sm={6} sx={{ width: 1 }}>
+        <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4 }}>
+          <Calendareventslist date={date} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} daysOfRange={dateQuantity} />
+        </Box>
+      </Grid>
+    </Grid>
   )
 }
