@@ -139,7 +139,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
             {matchedEvents.map((event, index) =>
               <div key={index}>{event.name} {event.dateString} {event.time}</div>
             )}
-          </div> */}
+            </div> */}
           </Box>
         </Box>
       </Grid>

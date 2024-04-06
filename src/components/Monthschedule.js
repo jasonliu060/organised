@@ -184,7 +184,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
           </Typography>
           <Box sx={{mt: 2}}>
             <Box>
-              <TextField label="Year" type="number" size='small' value={year} onChange={yearOnchangeHandler} sx={{ width: 108, mr: 1 }} />
+              <TextField label="Year" type="number" size='medium' value={year} onChange={yearOnchangeHandler} sx={{ width: 108, mr: 1 }} />
               <FormControl>
                 <InputLabel id="month-lable">Month</InputLabel>
                 <Select
@@ -193,7 +193,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
                   value={month}
                   label="Month"
                   onChange={monthOnchangeHandler}
-                  size="small"
+                  size="medium"
                 >
                   <MenuItem value={0}>{months[0]}</MenuItem>
                   <MenuItem value={1}>{months[1]}</MenuItem>
