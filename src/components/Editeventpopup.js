@@ -19,9 +19,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Alert from '@mui/material/Alert';
-import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import Snackbar from '@mui/material/Snackbar';
 
 
 
@@ -40,11 +40,21 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
 
 
   const [isAddingType, setIsAddingType] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
+  const [isTypeAddedSuccessfully, setisTypeAddedSuccessfully] = useState(false);
+  const [addTypeAlertOpen, setaddTypeAlertOpen] = useState(false);
+  const [addEventAlertOpen, setaddEventAlertOpen] = useState(false);
+  const [addEventAlertContent, setaddEventAlertContent] = useState('');
+  const [addEventAlertServerity, setaddEventAlertServerity] = useState('');
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
-  // console.log(editingEvent);
+  // function clearAllFields() {
+  //   setName('');
+  //   setDateString('');
+  //   setTime('');
+  //   setUrl('');
+  //   setPriority('medium');
+  //   setType('default');
+  // }
 
   function handleClickOpen() {
     setDialogOpen(true);
@@ -52,6 +62,14 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
 
   function handleClose() {
     setDialogOpen(false);
+  };
+
+  function handleAddTypeAlertClose() {
+    setaddTypeAlertOpen(false);
+  };
+
+  function handleAddEventAlertClose() {
+    setaddEventAlertOpen(false);
   };
 
   function addIconOnClickHandler() {
@@ -70,36 +88,52 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
       ])
       setNewTypeOption('');
       setIsAddingType(false);
-      setIsSuccess(true);
-      setAlertOpen(true);
+      setisTypeAddedSuccessfully(true);
+      setaddTypeAlertOpen(true);
     } else {
-      setIsSuccess(false);
-      setAlertOpen(true);
+      setisTypeAddedSuccessfully(false);
+      setaddTypeAlertOpen(true);
     }
   }
 
   function submitHandler(e) {
     e.preventDefault();
     if (name === '') {
-      alert('Event name cannot be empty!');
+      setaddEventAlertContent('Event name cannot be empty!')
+      setaddEventAlertServerity('error');
+      setaddEventAlertOpen(true);
+      return
     } else if (dateString !== '' && time !== '') {
       const newDateString = dayjs(dateString + 'T' + time).$d;
       const milliseconds = newDateString.getTime();
       console.log(newDateString, milliseconds);
       editEvent(editingEventId, name, milliseconds, dateString, time, url, priority, status, type);
       setDialogOpen(false);
+      setaddEventAlertContent('Event added successfully!');
+      setaddEventAlertServerity('success');
+      setaddEventAlertOpen(true);
     } else if (dateString !== '') {
       const newDateString = dayjs(dateString).$d;
       const milliseconds = newDateString.getTime();
       console.log(newDateString, milliseconds);
       editEvent(editingEventId, name, milliseconds, dateString, '', url, priority, status, type);
       setDialogOpen(false);
+      setaddEventAlertContent('Event added successfully!');
+      setaddEventAlertServerity('success');
+      setaddEventAlertOpen(true);
     } else if (time !== '') {
-      alert('Event time cannot be set without event date.');
+      setaddEventAlertContent('Event time cannot be set without event date.');
+      setaddEventAlertServerity('error');
+      setaddEventAlertOpen(true);
+      return
     } else {
       editEvent(editingEventId, name, '', '', '', url, priority, status, type);
       setDialogOpen(false);
+      setaddEventAlertContent('Event added successfully!');
+      setaddEventAlertServerity('success');
+      setaddEventAlertOpen(true);
     }
+    setDialogOpen(false);
   }
 
   function editEvent(editingEventId, name, milliseconds, dateString, time, url, priority, status, type) {
@@ -116,13 +150,13 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
         event.id === editingEventId ? editingEvent : event
       ))
     );
-    alert('Updated succesfully!');
+    // alert('Updated succesfully!');
   }
 
   return (
     <React.Fragment>
-      <IconButton color='primary' size="medium" onClick={handleClickOpen} sx={{mr:1}}>
-        <EditIcon fontSize="small"/>
+      <IconButton color='primary' size="medium" onClick={handleClickOpen} sx={{ mr: 1 }}>
+        <EditIcon fontSize="small" />
       </IconButton>
       <Dialog
         open={dialogOpen}
@@ -164,22 +198,6 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
               </Select>
             </FormControl>
           </div>
-          {/* <div className='add-event-element'>
-            <FormControl>
-              <InputLabel id="status-lable">Status</InputLabel>
-              <Select
-                labelId="status-lable"
-                id="status"
-                value={status}
-                label="Status"
-                onChange={(e) => { setStatus(e.target.value) }}
-              >
-                <MenuItem value="todo">To Do</MenuItem>
-                <MenuItem value="inprogress">In Progress</MenuItem>
-                <MenuItem value="done">Done</MenuItem>
-              </Select>
-            </FormControl>
-          </div> */}
           <div className='add-event-element type-input-container'>
             <FormControl>
               <InputLabel id="type-lable">Type</InputLabel>
@@ -209,15 +227,15 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
               </IconButton>}
           </div>
           <div className='add-event-element'>
-            <Collapse in={alertOpen}>
-              {isSuccess ? <Alert
+            <Snackbar open={addTypeAlertOpen} autoHideDuration={3000} onClose={handleAddTypeAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+              {isTypeAddedSuccessfully ? <Alert
                 action={
                   <IconButton
                     aria-label="close"
                     color="inherit"
                     size="small"
                     onClick={() => {
-                      setAlertOpen(false);
+                      setaddTypeAlertOpen(false);
                     }}
                   >
                     <CloseIcon fontSize="inherit" />
@@ -231,7 +249,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
                   color="inherit"
                   size="small"
                   onClick={() => {
-                    setAlertOpen(false);
+                    setaddTypeAlertOpen(false);
                   }}
                 >
                   <CloseIcon fontSize="inherit" />
@@ -239,7 +257,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
               }>
                 Type name can not be empty!
               </Alert>}
-            </Collapse>
+            </Snackbar>
           </div>
           <div className='add-event-element'>
             <Button variant="outlined" onClick={submitHandler}>Edit</Button>
@@ -247,6 +265,25 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
           </div>
         </DialogContent>
       </Dialog>
+      <Snackbar open={addEventAlertOpen} autoHideDuration={3000} onClose={handleAddEventAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert
+          severity={addEventAlertServerity}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setaddEventAlertOpen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          {addEventAlertContent}
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   )
 }

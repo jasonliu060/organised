@@ -19,10 +19,11 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Alert from '@mui/material/Alert';
-import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import Snackbar from '@mui/material/Snackbar';
+
 
 export default function FormDialog({ addEvent, typeList, setTypeList }) {
   const [name, setName] = useState('');
@@ -35,9 +36,21 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
   const [type, setType] = useState('default');
 
   const [isAddingType, setIsAddingType] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
+  const [isTypeAddedSuccessfully, setisTypeAddedSuccessfully] = useState(false);
+  const [addTypeAlertOpen, setaddTypeAlertOpen] = useState(false);
+  const [addEventAlertOpen, setaddEventAlertOpen] = useState(false);
+  const [addEventAlertContent, setaddEventAlertContent] = useState('');
+  const [addEventAlertServerity, setaddEventAlertServerity] = useState('');
   const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  function clearAllFields(){
+    setName('');
+    setDateString('');
+    setTime('');
+    setUrl('');
+    setPriority('medium');
+    setType('default');
+  }
 
   function handleClickOpen() {
     setDialogOpen(true);
@@ -45,6 +58,14 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
 
   function handleClose() {
     setDialogOpen(false);
+  };
+
+  function handleAddTypeAlertClose() {
+    setaddTypeAlertOpen(false);
+  };
+
+  function handleAddEventAlertClose() {
+    setaddEventAlertOpen(false);
   };
 
   function addIconOnClickHandler() {
@@ -63,35 +84,53 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
       ])
       setNewTypeOption('');
       setIsAddingType(false);
-      setIsSuccess(true);
-      setAlertOpen(true);
+      setisTypeAddedSuccessfully(true);
+      setaddTypeAlertOpen(true);
     } else {
-      setIsSuccess(false);
-      setAlertOpen(true);
+      setisTypeAddedSuccessfully(false);
+      setaddTypeAlertOpen(true);
     }
   }
 
   function submitHandler(e) {
     e.preventDefault();
     if (name === '') {
-      alert('Event name cannot be empty!');
+      setaddEventAlertContent('Event name cannot be empty!')
+      setaddEventAlertServerity('error');
+      setaddEventAlertOpen(true);
+      return
     } else if (dateString !== '' && time !== '') {
       const newDateString = dayjs(dateString + 'T' + time).$d;
       const milliseconds = newDateString.getTime();
       console.log(newDateString, milliseconds);
       addEvent(name, milliseconds, dateString, time, url, priority, status, type);
       setDialogOpen(false);
+      setaddEventAlertContent('Event added successfully!');
+      setaddEventAlertServerity('success');
+      setaddEventAlertOpen(true);
+      clearAllFields();
     } else if (dateString !== '') {
       const newDateString = dayjs(dateString).$d;
       const milliseconds = newDateString.getTime();
       console.log(newDateString, milliseconds);
       addEvent(name, milliseconds, dateString, '', url, priority, status, type);
       setDialogOpen(false);
+      setaddEventAlertContent('Event added successfully!');
+      setaddEventAlertServerity('success');
+      setaddEventAlertOpen(true);
+      clearAllFields();
     } else if (time !== '') {
-      alert('Event time cannot be set without event date.');
+      setaddEventAlertContent('Event time cannot be set without event date.');
+      setaddEventAlertServerity('error');
+      setaddEventAlertOpen(true);
+      return
     } else {
       addEvent(name, '', '', '', url, priority, status, type);
       setDialogOpen(false);
+      setaddEventAlertContent('Event added successfully!');
+      setaddEventAlertServerity('success');
+      setaddEventAlertOpen(true);
+      clearAllFields();
     }
     setDialogOpen(false);
   }
@@ -101,7 +140,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
 
   return (
     <React.Fragment>
-      <Fab color="primary" onClick={handleClickOpen} style={{position: 'fixed', bottom: 40, right: 40}}>
+      <Fab color="primary" onClick={handleClickOpen} style={{ position: 'fixed', bottom: 40, right: 40 }}>
         <AddIcon />
       </Fab>
       <Dialog
@@ -144,22 +183,6 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
               </Select>
             </FormControl>
           </div>
-          {/* <div className='add-event-element'>
-            <FormControl>
-              <InputLabel id="status-lable">Status</InputLabel>
-              <Select
-                labelId="status-lable"
-                id="status"
-                value={status}
-                label="Status"
-                onChange={(e) => { setStatus(e.target.value) }}
-              >
-                <MenuItem value="todo">To Do</MenuItem>
-                <MenuItem value="inprogress">In Progress</MenuItem>
-                <MenuItem value="done">Done</MenuItem>
-              </Select>
-            </FormControl>
-          </div> */}
           <div className='add-event-element type-input-container'>
             <FormControl>
               <InputLabel id="type-lable">Type</InputLabel>
@@ -189,15 +212,15 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
               </IconButton>}
           </div>
           <div className='add-event-element'>
-            <Collapse in={alertOpen}>
-              {isSuccess ? <Alert
+            <Snackbar open={addTypeAlertOpen} autoHideDuration={3000} onClose={handleAddTypeAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+              {isTypeAddedSuccessfully ? <Alert
                 action={
                   <IconButton
                     aria-label="close"
                     color="inherit"
                     size="small"
                     onClick={() => {
-                      setAlertOpen(false);
+                      setaddTypeAlertOpen(false);
                     }}
                   >
                     <CloseIcon fontSize="inherit" />
@@ -211,7 +234,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
                   color="inherit"
                   size="small"
                   onClick={() => {
-                    setAlertOpen(false);
+                    setaddTypeAlertOpen(false);
                   }}
                 >
                   <CloseIcon fontSize="inherit" />
@@ -219,7 +242,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
               }>
                 Type name can not be empty!
               </Alert>}
-            </Collapse>
+            </Snackbar>
           </div>
           <div className='add-event-element'>
             <Button variant="outlined" onClick={submitHandler}>Add</Button>
@@ -227,6 +250,25 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
           </div>
         </DialogContent>
       </Dialog>
+      <Snackbar open={addEventAlertOpen} autoHideDuration={3000} onClose={handleAddEventAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert
+          severity={addEventAlertServerity}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setaddEventAlertOpen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          {addEventAlertContent}
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }
