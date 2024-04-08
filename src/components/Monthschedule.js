@@ -152,12 +152,53 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     console.log(monthInput, date)
   }
 
-  const jsx = dates.map((e, index) => (
-    <div className='dateContainer' key={index}>
-      {e.monthIndicator === 1 ?
-        <div className={e.isToday ? 'date date-today' : 'date'} key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
+  function getColor(e) {
+    if (e.isToday) {
+      return 'white'
+    } else if (e.monthIndicator === 1) {
+      return 'black'
+    } else {
+      return 'grey'
+    }
+  }
+
+  // const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
+
+  function hasEvent(index) {
+    const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
+    let result = '';
+    events.forEach((element, i) => {
+      if (element.milliseconds >= temporaryDateObject.getTime() && element.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
+        result = 'blue'
+      }
+    })
+    if (result === '') {
+      result = 'transparent';
+    }
+    return result
+  }
+
+  function getJsx(x) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 30 } }} onClick={() => switchMonthToSelectedWeek((x + 1) * 7 - 7, dates[(x + 1) * 7 - 7].dateNumber)}>
+        {dates.map((e, index) => (
+          <Box key={index}>
+            <Box className='date' sx={{
+              width: 30, borderRadius: 20, border: 1, borderColor: hasEvent(index), backgroundColor: e.isToday ? '#1976d2' : '', color: getColor(e), ':hover': { backgroundColor: e.isToday ? '#1565c0' : '#00000010' }
+            }} key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
+              {e.dateNumber}
+              {/* {(events.filter((element0) => {
+                const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
+                if (element0.milliseconds >= temporaryDateObject.getTime() && element0.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
+                  return element0
+                }
+                return null
+              }).map((e, i) => <div key={i}>{e.name}</div>)
+              )} */}
+            </Box>
+            {/* {e.monthIndicator === 1 ?
+        <Box className={e.isToday ? 'date date-today' : 'date'} key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
           {e.dateNumber}
-          <br key={index}></br>
           {(events.filter((element0) => {
             const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
             if (element0.milliseconds >= temporaryDateObject.getTime() && element0.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
@@ -166,15 +207,23 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
             return null
           }).map((e, i) => <div key={i}>{e.name}</div>)
           )}
-        </div> :
-        <div className='date date-grey' key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
+        </Box> :
+        <Box className='date date-grey' key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
           {e.dateNumber}
-        </div>
-      }
-    </div>
-  ))
+        </Box>
+      } */}
+          </Box>
+        )).filter((e, i) => i > (x * 7) - 1 && i < (x + 1) * 7)}
+      </Box>
+    )
+  }
 
-
+  // const temporaryDateObject1 = new Date(year, month - 1 + dates[23].monthIndicator, dates[23].dateNumber);
+  // console.log(dates);
+  // console.log(year, month);
+  // console.log(temporaryDateObject1.getTime(), temporaryDateObject1.getTime() + 86400000);
+  // console.log(events[1].milliseconds >= temporaryDateObject1.getTime() && events[1].milliseconds < (temporaryDateObject1.getTime() + 86400000));
+  // console.log(hasEvent(20));
   return (
     <Grid container columnSpacing={3} rowSpacing={3}>
       <Grid item sm={6} sx={{ width: 1 }}>
@@ -182,7 +231,7 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
           <Typography variant="h6" gutterBottom>
             Calendar
           </Typography>
-          <Box sx={{mt: 2}}>
+          <Box sx={{ mt: 2 }}>
             <Box>
               <TextField label="Year" type="number" size='medium' value={year} onChange={yearOnchangeHandler} sx={{ width: 108, mr: 1 }} />
               <FormControl>
@@ -228,24 +277,23 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
               <Box sx={{ width: 30 }}>Fri</Box>
               <Box sx={{ width: 30 }}>Sat</Box>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { border: 1, borderRadius: 10 } }} onClick={() => switchMonthToSelectedWeek(0, dates[0].dateNumber)}>
-              {jsx.filter((e, i) => i < 7).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { border: 1, borderRadius: 10 } }} onClick={() => switchMonthToSelectedWeek(7, dates[7].dateNumber)}>
+            {getJsx(0)}
+            {getJsx(1)}
+            {getJsx(2)}
+            {getJsx(3)}
+            {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 30 } }} onClick={() => switchMonthToSelectedWeek(0, dates[0].dateNumber)}>
+              {jsx.filter((e, i) => i > -1 && i < 7).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
+            </Box> */}
+            {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 20 } }} onClick={() => switchMonthToSelectedWeek(7, dates[7].dateNumber)}>
               {jsx.filter((e, i) => i > 6 && i < 14).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { border: 1, borderRadius: 10 } }} onClick={() => switchMonthToSelectedWeek(14, dates[14].dateNumber)}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 20 } }} onClick={() => switchMonthToSelectedWeek(14, dates[14].dateNumber)}>
               {jsx.filter((e, i) => i > 13 && i < 21).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { border: 1, borderRadius: 10 } }} onClick={() => switchMonthToSelectedWeek(21, dates[21].dateNumber)}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 20 } }} onClick={() => switchMonthToSelectedWeek(21, dates[21].dateNumber)}>
               {jsx.filter((e, i) => i > 20 && i < 28).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box>
-            {weekQuantity > 4 && <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { border: 1, borderRadius: 10 } }} onClick={() => switchMonthToSelectedWeek(28, dates[28].dateNumber)}>
-              {jsx.filter((e, i) => i > 27 && i < 35).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box>}
-            {weekQuantity > 5 && <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { border: 1, borderRadius: 10 } }} onClick={() => switchMonthToSelectedWeek(35, dates[35].dateNumber)}>
-              {jsx.filter((e, i) => i > 34 && i < 42).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box>}
+            </Box> */}
+            
           </Box>
         </Box>
       </Grid>

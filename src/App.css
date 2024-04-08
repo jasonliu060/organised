@@ -1,4 +1,4 @@
-.days, .week {
+/* .days, .week {
   display: grid;
   grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   width: 414px;
@@ -10,13 +10,20 @@
 
 .date{
   display: inline-block;
-  width: 20px;
+  width: 30px;
   border: 1px solid transparent;
 }
 
 .date-today{
-  border: 1px dashed black;
-  border-radius: 10px;
+  border-radius: 20px;
+  background-color: #1976d2;
+  color: white;
+}
+
+.date-today:hover{
+  border-radius: 20px;
+  background-color: #1976d2;
+  color: white;
 }
 
 .date-grey{
@@ -31,14 +38,14 @@
 }
 
 .date:hover{
-  border: 1px solid black;
-  border-radius: 10px;
+  border-radius: 20px;
+  background-color: #00000010;
   cursor: pointer;
 }
 
 .week:hover:not(:has(.date:hover)){
-  border: 1px solid black;
   border-radius: 10px;
+  background-color: #00000010;
   cursor: pointer;
 }
 
@@ -49,4 +56,4 @@
 .type-input-container {
   display: flex;
   align-items: center;
-}
+} */
