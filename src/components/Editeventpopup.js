@@ -22,6 +22,7 @@ import Alert from '@mui/material/Alert';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Snackbar from '@mui/material/Snackbar';
+import { Box } from '@mui/material';
 
 
 
@@ -166,23 +167,23 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
       >
         <DialogTitle>Edit Event</DialogTitle>
         <DialogContent>
-          <div className='add-event-element'>
+          <Box sx={{mt: 1}}>
             <TextField label="Event Name" variant="outlined" value={name} onChange={(e) => { setName(e.target.value) }} />
-          </div>
-          <div className='add-event-element'>
+          </Box>
+          <Box sx={{mt: 2}}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker label="Event Date" name="Event Date" value={dayjs(dateString)} onChange={(newValue) => { setDateString(newValue && newValue.$D ? newValue.format('YYYY-MM-DD') : ''); console.log(newValue && newValue.$D ? newValue.format('YYYY-MM-DD') : '') }} />
             </LocalizationProvider>
-          </div>
-          <div className='add-event-element'>
+          </Box>
+          <Box sx={{mt: 2}}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <TimePicker label="Event Time" name="Event Time" value={time === '' ? '' : dayjs('2000-01-01T' + time)} onChange={(newValue) => { setTime(newValue && newValue.$D ? newValue.format('HH:mm') : ''); console.log(newValue && newValue.$D ? newValue.format('HH:mm') : '') }} />
             </LocalizationProvider>
-          </div>
-          <div className='add-event-element'>
+          </Box>
+          <Box sx={{mt: 2}}>
             <TextField label="URL" variant="outlined" value={url} onChange={(e) => { setUrl(e.target.value) }} />
-          </div>
-          <div className='add-event-element'>
+          </Box>
+          <Box sx={{mt: 2}}>
             <FormControl>
               <InputLabel id="priority-lable">Priority</InputLabel>
               <Select
@@ -197,8 +198,8 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
                 <MenuItem value="low">Low</MenuItem>
               </Select>
             </FormControl>
-          </div>
-          <div className='add-event-element type-input-container'>
+          </Box>
+          <Box sx={{mt: 2, display: 'flex', alignItems: 'center'}}>
             <FormControl>
               <InputLabel id="type-lable">Type</InputLabel>
               <Select
@@ -216,17 +217,17 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
               </Select>
             </FormControl>
             {isAddingType ?
-              <span className='type-input-container'>
+              <Box sx={{display: 'flex', alignItems: 'center'}}>
                 <TextField style={{ marginLeft: 20 }} label="New Type" variant="outlined" value={newTypeOption} onChange={(e) => { setNewTypeOption(e.target.value) }} />
                 <IconButton color="primary" onClick={tickIconOnClickHandler}>
                   <CheckCircleOutlineIcon />
                 </IconButton>
-              </span> :
+              </Box> :
               <IconButton color="primary" onClick={addIconOnClickHandler}>
                 <AddCircleOutlineIcon />
               </IconButton>}
-          </div>
-          <div className='add-event-element'>
+          </Box>
+          <Box sx={{mt: 2}}>
             <Snackbar open={addTypeAlertOpen} autoHideDuration={3000} onClose={handleAddTypeAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
               {isTypeAddedSuccessfully ? <Alert
                 action={
@@ -258,11 +259,11 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
                 Type name can not be empty!
               </Alert>}
             </Snackbar>
-          </div>
-          <div className='add-event-element'>
+          </Box>
+          <Box sx={{mt: 2}}>
             <Button variant="outlined" onClick={submitHandler}>Edit</Button>
             <Button style={{ marginLeft: 20 }} variant="outlined" onClick={handleClose}>Cancel</Button>
-          </div>
+          </Box>
         </DialogContent>
       </Dialog>
       <Snackbar open={addEventAlertOpen} autoHideDuration={3000} onClose={handleAddEventAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
