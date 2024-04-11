@@ -162,14 +162,12 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
     }
   }
 
-  // const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
-
   function hasEvent(index) {
     const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
     let result = '';
     events.forEach((element, i) => {
       if (element.milliseconds >= temporaryDateObject.getTime() && element.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
-        result = 'blue'
+        result = 'black'
       }
     })
     if (result === '') {
@@ -180,50 +178,20 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
 
   function getJsx(x) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 30 } }} onClick={() => switchMonthToSelectedWeek((x + 1) * 7 - 7, dates[(x + 1) * 7 - 7].dateNumber)}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', cursor:'pointer', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 30 } }} onClick={() => switchMonthToSelectedWeek((x + 1) * 7 - 7, dates[(x + 1) * 7 - 7].dateNumber)}>
         {dates.map((e, index) => (
           <Box key={index}>
             <Box className='date' sx={{
               width: 30, borderRadius: 20, border: 1, borderColor: hasEvent(index), backgroundColor: e.isToday ? '#1976d2' : '', color: getColor(e), ':hover': { backgroundColor: e.isToday ? '#1565c0' : '#00000010' }
             }} key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
               {e.dateNumber}
-              {/* {(events.filter((element0) => {
-                const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
-                if (element0.milliseconds >= temporaryDateObject.getTime() && element0.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
-                  return element0
-                }
-                return null
-              }).map((e, i) => <div key={i}>{e.name}</div>)
-              )} */}
             </Box>
-            {/* {e.monthIndicator === 1 ?
-        <Box className={e.isToday ? 'date date-today' : 'date'} key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
-          {e.dateNumber}
-          {(events.filter((element0) => {
-            const temporaryDateObject = new Date(year, month - 1 + dates[index].monthIndicator, dates[index].dateNumber);
-            if (element0.milliseconds >= temporaryDateObject.getTime() && element0.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
-              return element0
-            }
-            return null
-          }).map((e, i) => <div key={i}>{e.name}</div>)
-          )}
-        </Box> :
-        <Box className='date date-grey' key={index} onClick={(element) => switchMonthToSelectedDay(element, index, dates[index].dateNumber)}>
-          {e.dateNumber}
-        </Box>
-      } */}
           </Box>
         )).filter((e, i) => i > (x * 7) - 1 && i < (x + 1) * 7)}
       </Box>
     )
   }
 
-  // const temporaryDateObject1 = new Date(year, month - 1 + dates[23].monthIndicator, dates[23].dateNumber);
-  // console.log(dates);
-  // console.log(year, month);
-  // console.log(temporaryDateObject1.getTime(), temporaryDateObject1.getTime() + 86400000);
-  // console.log(events[1].milliseconds >= temporaryDateObject1.getTime() && events[1].milliseconds < (temporaryDateObject1.getTime() + 86400000));
-  // console.log(hasEvent(20));
   return (
     <Grid container columnSpacing={3} rowSpacing={3}>
       <Grid item sm={6} sx={{ width: 1 }}>
@@ -281,19 +249,8 @@ export default function Monthschedule({ date, setDate, events, switchMonthToSele
             {getJsx(1)}
             {getJsx(2)}
             {getJsx(3)}
-            {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 30 } }} onClick={() => switchMonthToSelectedWeek(0, dates[0].dateNumber)}>
-              {jsx.filter((e, i) => i > -1 && i < 7).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box> */}
-            {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 20 } }} onClick={() => switchMonthToSelectedWeek(7, dates[7].dateNumber)}>
-              {jsx.filter((e, i) => i > 6 && i < 14).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 20 } }} onClick={() => switchMonthToSelectedWeek(14, dates[14].dateNumber)}>
-              {jsx.filter((e, i) => i > 13 && i < 21).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center', border: 1, borderColor: 'transparent', ":hover:not(:has(.date:hover))": { backgroundColor: '#00000010', borderRadius: 20 } }} onClick={() => switchMonthToSelectedWeek(21, dates[21].dateNumber)}>
-              {jsx.filter((e, i) => i > 20 && i < 28).map((e, i) => <Box sx={{ width: 30 }} key={i}>{e}</Box>)}
-            </Box> */}
-            
+            {weekQuantity > 4 && getJsx(4)}
+            {weekQuantity > 5 && getJsx(5)}
           </Box>
         </Box>
       </Grid>

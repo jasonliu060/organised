@@ -84,6 +84,27 @@ export default function Dayschedule({ date, setDate, setDaySwitcher, setMonthSwi
     return
   }
 
+  function hasEvent() {
+    const temporaryDateObject = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    let result = '';
+    events.forEach((element, i) => {
+      if (element.milliseconds >= temporaryDateObject.getTime() && element.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
+        result = 'black'
+      }
+    })
+    if (result === '') {
+      result = 'transparent';
+    }
+    return result
+  }
+
+  function isToday() {
+    if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && date.getDate() === today.getDate()) {
+      return true
+    }
+    return false
+  }
+
   return (
     <Grid container columnSpacing={3} rowSpacing={3}>
       <Grid item sm={6} sx={{ width: 1 }}>
@@ -91,39 +112,44 @@ export default function Dayschedule({ date, setDate, setDaySwitcher, setMonthSwi
           <Typography variant="h6" gutterBottom>
             Calendar
           </Typography>
-          <Box>
+          <Box sx={{mt: 2}}>
             <LocalizationProvider dateAdapter={AdapterDayjs} >
-              <DatePicker label="Event Date" name="Event Date" format="DD/MM/YYYY" value={dayjs().year(yearNumberFromDateObj).month(monthNumberFromDateObj).date(dateNumberFromDateObj)} onKeyDown={datepickerOnKeyDownHandler} onChange={(newValue) => { datepickerOnchangeHandler(newValue) }}/>
+              <DatePicker label="Event Date" name="Event Date" format="DD/MM/YYYY" value={dayjs().year(yearNumberFromDateObj).month(monthNumberFromDateObj).date(dateNumberFromDateObj)} onKeyDown={datepickerOnKeyDownHandler} onChange={(newValue) => { datepickerOnchangeHandler(newValue) }} />
             </LocalizationProvider>
           </Box>
           <Box sx={{ mt: 1 }}>
-            <ButtonGroup size="small" variant="outlined">
+            <ButtonGroup size="medium" variant="outlined">
               <Button onClick={toLast}><KeyboardArrowLeftIcon /></Button>
               <Button onClick={toToday}>Today</Button>
               <Button onClick={toNext}><KeyboardArrowRightIcon /></Button>
             </ButtonGroup>
           </Box>
-          <Box sx={{ mt: 1 }}>
-            <Button sx={{ mr: 1 }} size='small' variant="outlined" onClick={toMonth}>Back to Month</Button>
-            <Button variant="outlined" size='small' onClick={toWeek}>Back to Week</Button>
+          <Box>
+            <Button sx={{ mr: 1, mt: 1 }} size='medium' variant="outlined" onClick={toMonth}>Back to Month</Button>
+            <Button sx={{ mt: 1 }} variant="outlined" size='medium' onClick={toWeek}>Back to Week</Button>
           </Box>
-          {/* <input type="date" name="date" required="required" value={`${yearNumberFromDateObj}-${monthNumberFromDateObj > 9 ? monthNumberFromDateObj + 1 : '0' + (monthNumberFromDateObj + 1)}-${dateNumberFromDateObj > 9 ? dateNumberFromDateObj : '0' + dateNumberFromDateObj}`} onChange={datepickerOnchangeHandler} onKeyDown={datepickerOnKeyDownHandler} /> */}
-          <Box sx={{ width: 30, ml: 0.5, mt: 1, textAlign: 'center' }}>
+          <Box sx={{ ml: 0.5, mt: 1, textAlign: 'center' }}>
             <Box>{days[date.getDay()]}</Box>
           </Box>
-          {today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && date.getDate() === today.getDate() ?
-              <Box sx={{ width: 30, ml: 0.5, textAlign: 'center' }}>
-                <Box sx={{ width: 20, ml: 0.5, border:1, borderStyle: 'dashed', borderRadius: 10 }}>{date.getDate()}</Box>
-              </Box> :
-              <Box sx={{ width: 30, ml: 0.5, textAlign: 'center' }}>
-                <Box>{date.getDate()}</Box>
+          <Box sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ width: {
+                  xs: 150, sm: 150, md: 250,
+                  lg: 350, xl: 450
+                }, backgroundColor: isToday() ? '#1976d2' : 'transparent', color: isToday() ? 'white' : 'black', borderRadius: 10, border: 1, borderColor: hasEvent() }}>{date.getDate()}</Box>
+          </Box>
+          {matchedEvents.map((event, index) =>
+            <Box key={index} sx={{ color: 'white', overflow: 'hidden', textAlign: 'center', fontSize: 12, display: 'flex', justifyContent: 'center' }}>
+              <Box key={index} sx={{
+                mt: 1, width: {
+                  xs: 150, sm: 150, md: 250,
+                  lg: 350, xl: 450
+                }, backgroundColor: '#1976d2', borderRadius: 1, overflow: 'hidden', textOverflow: 'ellipsis'
+              }}>
+                {event.name}
               </Box>
-          }
-          {/* <div>
-            {matchedEvents.map((event, index) =>
-              <div key={index}>{event.name} {event.dateString} {event.time}</div>
-            )}
-          </div> */}
+            </Box>
+          )}
+
         </Box>
       </Grid>
       <Grid item sm={6} sx={{ width: 1 }}>

@@ -98,7 +98,7 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
       <Typography variant="h6" gutterBottom>
         Events
       </Typography>
-      <FormControl sx={{ mt: 2 }}>
+      <FormControl sx={{ mt: 1 }}>
         <InputLabel id="type-lable">Type</InputLabel>
         <Select
           labelId="type-lable"
@@ -117,7 +117,7 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
           )}
         </Select>
       </FormControl>
-      <FormControl sx={{ mt: 2, pl: 2 }}>
+      <FormControl sx={{ mt: 1, pl: 2, mr: 2 }}>
         <InputLabel id="priority-lable" sx={{ pl: 2.5 }}>Priority</InputLabel>
         <Select
           labelId="priority-lable"
@@ -132,7 +132,9 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
           <MenuItem value='low'>Low</MenuItem>
         </Select>
       </FormControl>
-      <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 3 }}/>
+      <Box sx={{mt:1,  height: 54, border: 1, borderColor: '#00000038', borderRadius:1, display: "inline-block", ':hover': {borderColor: '#000000'}}}>
+      <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 1 }}/>
+      </Box>
       {selectedEvents.map((element, index) => (
         <Box key={element.id} sx={{ mt: 1 }}>
         <Box key={element.id} sx={{ display: "flex", justifyContent: "space-between" }}>

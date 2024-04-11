@@ -14,10 +14,8 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
 
   let matchedEvents = events.filter((e) => (e.milliseconds >= date.getTime() && e.milliseconds < (date.getTime() + 7 * 86400000)));
 
-  const [month] = useState(date.getMonth());
-  const [year] = useState(date.getFullYear());
-
-
+  // const [month] = useState(date.getMonth());
+  // const [year] = useState(date.getFullYear());
 
   const dateOfSun = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   const dateOfSat = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
@@ -87,6 +85,22 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     setDaySwitcher(false);
   }
 
+  function hasEvent(index) {
+    const temporaryDateObject = new Date(date.getFullYear(), dates[index].monthNumber, dates[index].dateNumber);
+    let result = '';
+    events.forEach((element, i) => {
+      if (element.milliseconds >= temporaryDateObject.getTime() && element.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
+        result = 'black'
+      }
+    })
+    if (result === '') {
+      result = 'transparent';
+    }
+    return result
+  }
+
+  console.log(date, dates);
+
   return (
     <Grid container columnSpacing={3} rowSpacing={3}>
       <Grid item sm={6} sx={{ width: 1 }}>
@@ -94,52 +108,99 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
           <Typography variant="h6" gutterBottom>
             Calendar
           </Typography>
-          <Typography variant="body1" gutterBottom>
-            {dateOfSun.getDate()} {months[dateOfSun.getMonth()]} {dateOfSun.getFullYear()} ~ {dateOfSat.getDate()} {months[dateOfSat.getMonth()]} {dateOfSat.getFullYear()}
-          </Typography>
-          <Box sx={{ mt: 2 }}>
-            <ButtonGroup size="small" variant="outlined">
+          <Box>
+            <Typography variant="body1" gutterBottom>
+              {dateOfSun.getDate()} {months[dateOfSun.getMonth()]} {dateOfSun.getFullYear()} ~ {dateOfSat.getDate()} {months[dateOfSat.getMonth()]} {dateOfSat.getFullYear()}
+            </Typography>
+          </Box>
+          <Box sx={{ mt: 1 }}>
+            <ButtonGroup size="medium" variant="outlined">
               <Button onClick={toLast}><KeyboardArrowLeftIcon /></Button>
               <Button onClick={toToday}>Today</Button>
               <Button onClick={toNext}><KeyboardArrowRightIcon /></Button>
             </ButtonGroup>
           </Box>
           <Box sx={{ mt: 1 }}>
-            <Button size="small" variant="outlined" onClick={toMonth}>Back to Month</Button>
+            <Button size="medium" variant="outlined" onClick={toMonth}>Back to Month</Button>
           </Box>
           <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 4, textAlign: 'center' }}>
-              <Box sx={{ width: 30 }}>Sun</Box>
-              <Box sx={{ width: 30 }}>Mon</Box>
-              <Box sx={{ width: 30 }}>Tue</Box>
-              <Box sx={{ width: 30 }}>Wed</Box>
-              <Box sx={{ width: 30 }}>Thu</Box>
-              <Box sx={{ width: 30 }}>Fri</Box>
-              <Box sx={{ width: 30 }}>Sat</Box>
+              <Box sx={{
+                width: {
+                  xs: 30, sm: 30, md: 50,
+                  lg: 70, xl: 90
+                }
+              }}>Sun</Box>
+              <Box sx={{
+                width: {
+                  xs: 30, sm: 30, md: 50,
+                  lg: 70, xl: 90
+                }
+              }}>Mon</Box>
+              <Box sx={{
+                width: {
+                  xs: 30, sm: 30, md: 50,
+                  lg: 70, xl: 90
+                }
+              }}>Tue</Box>
+              <Box sx={{
+                width: {
+                  xs: 30, sm: 30, md: 50,
+                  lg: 70, xl: 90
+                }
+              }}>Wed</Box>
+              <Box sx={{
+                width: {
+                  xs: 30, sm: 30, md: 50,
+                  lg: 70, xl: 90
+                }
+              }}>Thu</Box>
+              <Box sx={{
+                width: {
+                  xs: 30, sm: 30, md: 50,
+                  lg: 70, xl: 90
+                }
+              }}>Fri</Box>
+              <Box sx={{
+                width: {
+                  xs: 30, sm: 30, md: 50,
+                  lg: 70, xl: 90
+                }
+              }}>Sat</Box>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 0.5, mr: 0.5, mt: 2, textAlign: 'center' }}>
               {dates.map((e, index) => (
-                <Box className='dateContainer' sx={{ width: 30 }} key={index}>
-                  <Box className={e.isToday ? 'date date-today' : 'date'} onClick={() => switchWeekToSelectedDay(index)} key={index}>
-                    {e.dateNumber}
-                    <br key={index}></br>
+                <Box sx={{
+                  width: {
+                    xs: 30, sm: 30, md: 50,
+                    lg: 70, xl: 90
+                  }, whiteSpace: 'nowrap'
+                }} key={index}>
+                  <Box sx={{
+                    borderRadius: 20, border: 1, cursor: 'pointer', borderColor: hasEvent(index), backgroundColor: e.isToday ? '#1976d2' : '', color: e.isToday ? 'white' : 'black', ':hover': { backgroundColor: e.isToday ? '#1565c0' : '#00000010' }
+                  }} onClick={() => switchWeekToSelectedDay(index)} key={index}>
+                    {e.dateNumber}</Box>
+                  <Box sx={{
+                    mt: 1, width: {
+                      xs: 30, sm: 30, md: 50,
+                      lg: 70, xl: 90
+                    }, color: 'white', overflow: 'hidden'
+                  }}>
                     {events.filter((element0) => {
-                      const temporaryDateObject = new Date(year, month - 1 + dates[index].monthNumber, dates[index].dateNumber);
+                      const temporaryDateObject = new Date(date.getFullYear(), dates[index].monthNumber, dates[index].dateNumber);
                       if (element0.milliseconds >= temporaryDateObject.getTime() && element0.milliseconds < (temporaryDateObject.getTime() + 86400000)) {
                         return element0
                       }
                       return null
-                    }).map((e, i) => <Box key={i}>{e.name}</Box>)
+                    }).map((e, i) => <Box key={i} sx={{
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden', fontSize: 12, pl: 0.1, mt: 1, backgroundColor: '#1976d2', borderRadius: 1
+                    }}>{e.name}</Box>)
                     }
                   </Box>
                 </Box>
               ))}
             </Box>
-            {/* <div>
-            {matchedEvents.map((event, index) =>
-              <div key={index}>{event.name} {event.dateString} {event.time}</div>
-            )}
-            </div> */}
           </Box>
         </Box>
       </Grid>
