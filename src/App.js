@@ -16,7 +16,7 @@ function App() {
   const [events, setEvents] = useState([{
     id: 1,
     name: 'study',
-    type: 'default',
+    type: 'Default',
     priority: 'medium',
     url: '',
     status: 'todo',
@@ -26,7 +26,7 @@ function App() {
   }, {
     id: 2,
     name: 'workout',
-    type: 'default',
+    type: 'Default',
     priority: 'high',
     url: '',
     status: 'todo',
@@ -36,7 +36,7 @@ function App() {
   },{
     id: 3,
     name: 'go home',
-    type: 'default',
+    type: 'Default',
     priority: 'low',
     url: '',
     status: 'done',
@@ -46,7 +46,7 @@ function App() {
   }]);
 
   const [typeList, setTypeList] = useState([
-    'default'
+    'Default'
   ])
 
   function removeEvent(id){

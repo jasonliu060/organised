@@ -94,11 +94,11 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
   // }
 
   return (
-    <>
+    <Box sx={{textAlign: "center"}}>
       <Typography variant="h6" gutterBottom>
         Events
       </Typography>
-      <FormControl sx={{ mt: 1 }}>
+      <FormControl sx={{ mt: 1, ml: 2 }}>
         <InputLabel id="type-lable">Lists</InputLabel>
         <Select
           labelId="type-lable"
@@ -149,8 +149,10 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
               </IconButton>
             </Box>
           </Box>
+          <Box sx={{textAlign:"left"}}>
           {months[Number(element.dateString.slice(5, 7)) - 1]} {element.dateString.slice(8, 10)} {element.time} {element.url} {element.priority}
+          </Box>
         </Box>))}
-    </>
+    </Box>
   )
 }

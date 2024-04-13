@@ -108,13 +108,13 @@ export default function Dayschedule({ date, setDate, setDaySwitcher, setMonthSwi
   return (
     <Grid container columnSpacing={3} rowSpacing={3}>
       <Grid item sm={6} sx={{ width: 1 }}>
-        <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4 }}>
+        <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, textAlign: 'center' }}>
           <Typography variant="h6" gutterBottom>
             Calendar
           </Typography>
           <Box sx={{mt: 2}}>
             <LocalizationProvider dateAdapter={AdapterDayjs} >
-              <DatePicker label="Event Date" name="Event Date" format="DD/MM/YYYY" value={dayjs().year(yearNumberFromDateObj).month(monthNumberFromDateObj).date(dateNumberFromDateObj)} onKeyDown={datepickerOnKeyDownHandler} onChange={(newValue) => { datepickerOnchangeHandler(newValue) }} />
+              <DatePicker sx={{width: 188}} label="Event Date" name="Event Date" format="DD/MM/YYYY" value={dayjs().year(yearNumberFromDateObj).month(monthNumberFromDateObj).date(dateNumberFromDateObj)} onKeyDown={datepickerOnKeyDownHandler} onChange={(newValue) => { datepickerOnchangeHandler(newValue) }} />
             </LocalizationProvider>
           </Box>
           <Box sx={{ mt: 1 }}>
@@ -128,7 +128,7 @@ export default function Dayschedule({ date, setDate, setDaySwitcher, setMonthSwi
             <Button sx={{ mr: 1, mt: 1 }} size='medium' variant="outlined" onClick={toMonth}>Back to Month</Button>
             <Button sx={{ mt: 1 }} variant="outlined" size='medium' onClick={toWeek}>Back to Week</Button>
           </Box>
-          <Box sx={{ ml: 0.5, mt: 1, textAlign: 'center' }}>
+          <Box sx={{ ml: 0.5, mt: 3, textAlign: 'center' }}>
             <Box>{days[date.getDay()]}</Box>
           </Box>
           <Box sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>

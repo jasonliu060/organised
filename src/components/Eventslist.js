@@ -104,7 +104,7 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
           </Box>
         </Grid>
         <Grid item sm={6} sx={{ width: 1 }}>
-          <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%' }}>
+          <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%', textAlign: "center" }}>
             <Typography variant="h6" gutterBottom>
               Events
             </Typography>
@@ -140,8 +140,10 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
                     </IconButton>
                   </Box>
                 </Box>
+                <Box sx={{textAlign:"left"}}>
                 {element.dateString ? months[Number(element.dateString.slice(5, 7)) - 1] : ''}
                 {element.dateString ? element.dateString.slice(8, 10) : ''} {element.time} {element.url} {element.priority}
+                </Box>
               </Box>
             ))}
           </Box>

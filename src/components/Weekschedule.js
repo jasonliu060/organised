@@ -102,7 +102,7 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
   return (
     <Grid container columnSpacing={3} rowSpacing={3}>
       <Grid item sm={6} sx={{ width: 1 }}>
-        <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4 }}>
+        <Box sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, textAlign: 'center' }}>
           <Typography variant="h6" gutterBottom>
             Calendar
           </Typography>

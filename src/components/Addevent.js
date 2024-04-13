@@ -34,7 +34,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
   const [priority, setPriority] = useState('medium');
   const [status, setStatus] = useState('todo');
   const [newTypeOption, setNewTypeOption] = useState('');
-  const [type, setType] = useState('default');
+  const [type, setType] = useState('Default');
 
   const [isAddingType, setIsAddingType] = useState(false);
   const [isTypeAddedSuccessfully, setisTypeAddedSuccessfully] = useState(false);
@@ -50,7 +50,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
     setTime('');
     setUrl('');
     setPriority('medium');
-    setType('default');
+    setType('Default');
   }
 
   function handleClickOpen() {

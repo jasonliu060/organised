@@ -21,7 +21,7 @@ export default function Addlist({setTypeList, typeList}) {
 
   return (
     <React.Fragment>
-      <Button sx={{ mt: 2, mr: 1 }} variant="outlined" onClick={handleClickOpen}>
+      <Button sx={{ mt: 2, mr: 1 }} size='medium' variant="outlined" onClick={handleClickOpen}>
         Add List
       </Button>
       <Dialog

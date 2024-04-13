@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { useState } from "react"
@@ -29,7 +29,7 @@ export default function Eventlists({ events, typeList, setSelectedType, setTypeL
   }
 
   return (
-    <div>
+    <Box sx={{textAlign: "center"}}>
       <Typography variant="h6" gutterBottom>
         Lists
       </Typography>
@@ -56,7 +56,7 @@ export default function Eventlists({ events, typeList, setSelectedType, setTypeL
           </Button>
         </Grid> */}
       </Grid>
-      </div>
+      </Box>
 
   )
 }

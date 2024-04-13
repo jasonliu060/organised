@@ -123,7 +123,7 @@ export default function Managelist({ setTypeList, typeList, events, setEvents })
 
   return (
     <React.Fragment>
-      <Button sx={{ mt: 2 }} variant="outlined" onClick={handleClickOpen}>
+      <Button sx={{ mt: 2 }} variant="outlined" size='medium' onClick={handleClickOpen}>
         Manage Lists
       </Button>
       <Dialog
