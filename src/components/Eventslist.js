@@ -93,12 +93,14 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
     }
   }
 
+  console.log(events)
+
   return (
     <>
       <Grid container columnSpacing={3} rowSpacing={3}>
         <Grid item sm={6} sx={{ width: 1 }}>
           <Box display={"inline-block"} sx={{ border: '1px solid lightgrey', p: 2, borderRadius: 4, width: '90%' }}>
-            <Eventlists events={events} typeList={typeList} setSelectedType={setSelectedType} />
+            <Eventlists events={events} typeList={typeList} setSelectedType={setSelectedType} setTypeList={setTypeList} setEvents={setEvents} />
           </Box>
         </Grid>
         <Grid item sm={6} sx={{ width: 1 }}>
@@ -106,7 +108,7 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
             <Typography variant="h6" gutterBottom>
               Events
             </Typography>
-            <FormControl sx={{ mt: 2 }}>
+            <FormControl sx={{ mt: 1, mr: 2 }}>
               <InputLabel id="priority-lable">Priority</InputLabel>
               <Select
                 labelId="priority-lable"
@@ -121,7 +123,9 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
                 <MenuItem value='low'>Low</MenuItem>
               </Select>
             </FormControl>
-            <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 3 }} />
+            <Box sx={{ mt: 1, height: 54, border: 1, borderColor: '#00000038', borderRadius: 1, display: "inline-block", ':hover': { borderColor: '#000000' } }}>
+              <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 1 }} />
+            </Box>
             {selectedEvents.map((element, index) => (
               <Box key={element.id} sx={{ mt: 1 }}>
                 <Box key={element.id} sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -136,7 +140,8 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
                     </IconButton>
                   </Box>
                 </Box>
-                {months[Number(element.dateString.slice(5, 7)) - 1]} {element.dateString.slice(8, 10)} {element.time} {element.url} {element.priority}
+                {element.dateString ? months[Number(element.dateString.slice(5, 7)) - 1] : ''}
+                {element.dateString ? element.dateString.slice(8, 10) : ''} {element.time} {element.url} {element.priority}
               </Box>
             ))}
           </Box>

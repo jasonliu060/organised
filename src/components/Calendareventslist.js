@@ -99,7 +99,7 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
         Events
       </Typography>
       <FormControl sx={{ mt: 1 }}>
-        <InputLabel id="type-lable">Type</InputLabel>
+        <InputLabel id="type-lable">Lists</InputLabel>
         <Select
           labelId="type-lable"
           id="type"
@@ -132,25 +132,25 @@ export default function Calendareventslist({ date, events, setEvents, removeEven
           <MenuItem value='low'>Low</MenuItem>
         </Select>
       </FormControl>
-      <Box sx={{mt:1,  height: 54, border: 1, borderColor: '#00000038', borderRadius:1, display: "inline-block", ':hover': {borderColor: '#000000'}}}>
-      <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 1 }}/>
+      <Box sx={{ mt: 1, height: 54, border: 1, borderColor: '#00000038', borderRadius: 1, display: "inline-block", ':hover': { borderColor: '#000000' } }}>
+        <FormControlLabel control={<Checkbox value={isHidden} onChange={isHiddenHandler} />} label="Hide Done" sx={{ pl: 2, mt: 1 }} />
       </Box>
       {selectedEvents.map((element, index) => (
         <Box key={element.id} sx={{ mt: 1 }}>
-        <Box key={element.id} sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ mt: 1 }}>
-            <Checkbox checked={element.status === 'done' ? true : false} onChange={() => isDoneHandler(element.status, element.id, index)} />
-            {element.name}
+          <Box key={element.id} sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ mt: 1 }}>
+              <Checkbox checked={element.status === 'done' ? true : false} onChange={() => isDoneHandler(element.status, element.id, index)} />
+              {element.name}
+            </Box>
+            <Box sx={{ mt: 1 }}>
+              <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
+              <IconButton size="medium" color="error" onClick={() => removeEvent(element.id)} sx={{ mr: 1 }}>
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            </Box>
           </Box>
-          <Box sx={{ mt: 1 }}>
-            <Editeventpopup events={events} setEvents={setEvents} editingEventId={element.id} typeList={typeList} setTypeList={setTypeList} />
-            <IconButton size="medium" color="error" onClick={() => removeEvent(element.id)} sx={{ mr: 1 }}>
-              <ClearIcon fontSize="small" />
-            </IconButton>
-          </Box>
-        </Box>
-        {months[Number(element.dateString.slice(5, 7)) - 1]} {element.dateString.slice(8, 10)} {element.time} {element.url} {element.priority}
-      </Box>))}
+          {months[Number(element.dateString.slice(5, 7)) - 1]} {element.dateString.slice(8, 10)} {element.time} {element.url} {element.priority}
+        </Box>))}
     </>
   )
 }

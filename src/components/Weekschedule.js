@@ -99,8 +99,6 @@ export default function Weekschedule({ date, setDate, setDaySwitcher, setMonthSw
     return result
   }
 
-  console.log(date, dates);
-
   return (
     <Grid container columnSpacing={3} rowSpacing={3}>
       <Grid item sm={6} sx={{ width: 1 }}>

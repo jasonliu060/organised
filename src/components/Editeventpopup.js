@@ -37,8 +37,9 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
   const [priority, setPriority] = useState(editingEvent.priority);
   const [status, setStatus] = useState(editingEvent.status);
   const [newTypeOption, setNewTypeOption] = useState('');
-  const [type, setType] = useState(editingEvent.type);
+  let type = editingEvent.type;
 
+  // console.log(type);
 
   const [isAddingType, setIsAddingType] = useState(false);
   const [isTypeAddedSuccessfully, setisTypeAddedSuccessfully] = useState(false);
@@ -207,7 +208,7 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
                 id="type"
                 value={type}
                 label="Type"
-                onChange={(e) => { setType(e.target.value) }}
+                onChange={(e) => { type = e.target.value }}
               >
                 {typeList.map(
                   (element, index) => (

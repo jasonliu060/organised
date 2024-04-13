@@ -2,9 +2,10 @@ import Monthschedule from "./Monthschedule"
 import Weekschedule from "./Weekschedule"
 import Dayschedule from "./Dayschedule"
 import { useState } from 'react';
+import Addevent from './Addevent';
 
 
-export default function Calendar({events, setEvents, removeEvent, typeList, setTypeList}) {
+export default function Calendar({events, setEvents, removeEvent, typeList, setTypeList, addEvent}) {
   const [date, setDate] = useState(new Date());
 
   const [monthSwitcher, setMonthSwitcher] = useState(true);
@@ -61,6 +62,8 @@ export default function Calendar({events, setEvents, removeEvent, typeList, setT
       {weekSwitcher && <Weekschedule switchWeekToSelectedDay={switchWeekToSelectedDay} events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} date={date} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
 
       {daySwitcher && <Dayschedule date={date}  events={events} setEvents={setEvents} removeEvent={removeEvent} typeList={typeList} setTypeList={setTypeList} setDate={setDate} setDaySwitcher={setDaySwitcher} setMonthSwitcher={setMonthSwitcher} setWeekSwitcher={setWeekSwitcher}/>}
+
+      <Addevent events={events} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
     </div>
   )
 }
