@@ -21,7 +21,10 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [isHidden, setIsHidden] = useState(false);
-  const selectedEvents = hideDone();
+  // const selectedEvents = hideDone();
+  const unsortedSelectedEvents = hideDone();
+  const selectedEvents = unsortedSelectedEvents.sort((a, b) => b.milliseconds - a.milliseconds);
+
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -141,8 +144,7 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
                   </Box>
                 </Box>
                 <Box sx={{textAlign:"left"}}>
-                {element.dateString ? months[Number(element.dateString.slice(5, 7)) - 1] : ''}
-                {element.dateString ? element.dateString.slice(8, 10) : ''} {element.time} {element.url} {element.priority}
+                {element.dateString ? months[Number(element.dateString.slice(5, 7)) - 1] : ''} {element.dateString ? element.dateString.slice(8, 10) : ''} {element.time} {element.url} {element.priority}
                 </Box>
               </Box>
             ))}
