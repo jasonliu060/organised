@@ -45,7 +45,17 @@ function App() {
     //   time: '15:00'
     // }]));
 
-  const [events, setEventsToHook] = useState(JSON.parse(localStorage.getItem("events")));
+  const [events, setEventsToHook] = useState(JSON.parse(localStorage.getItem("events") || [{
+    id: 1,
+    name: 'Event Sample',
+    type: 'Default',
+    priority: 'Medium',
+    url: '',
+    status: 'todo',
+    milliseconds: 1708261200000,
+    dateString: '2024-02-19',
+    time: '14:00'
+  }]));
 
   function setEvents(newEvents){
     setEventsToHook(newEvents);
