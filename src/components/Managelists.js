@@ -161,7 +161,7 @@ export default function Managelist({ setTypeList, typeList, events, setEvents })
                   {element}
                 </Box>
               }
-              {element === 'default' || editingListIndex === index ? '' :
+              {element === 'Default' || editingListIndex === index ? '' :
                 <Box>
                   <IconButton color='primary' size="medium" onClick={(e) => { e.preventDefault(); editListHandler(element, index) }} sx={{ mr: 1 }}>
                     <EditIcon fontSize="small" />

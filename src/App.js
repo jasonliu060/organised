@@ -13,48 +13,98 @@ import TabPanel from './components/TabPanel'
 function App() {
   // const [switcher, setSwitcher] = useState(true)
 
-  const [events, setEvents] = useState([{
-    id: 1,
-    name: 'study',
-    type: 'Default',
-    priority: 'medium',
-    url: '',
-    status: 'todo',
-    milliseconds: 1708261200000,
-    dateString: '2024-02-19',
-    time: '14:00'
-  }, {
-    id: 2,
-    name: 'workout',
-    type: 'Default',
-    priority: 'high',
-    url: '',
-    status: 'todo',
-    milliseconds: 1708347600000,
-    dateString: '2024-02-20',
-    time: '15:00'
-  },{
-    id: 3,
-    name: 'go home',
-    type: 'Default',
-    priority: 'low',
-    url: '',
-    status: 'done',
-    milliseconds: 1705669200000,
-    dateString: '2024-01-20',
-    time: '15:00'
-  }]);
+    // localStorage.setItem("events", JSON.stringify([{
+    //   id: 1,
+    //   name: 'Study',
+    //   type: 'Default',
+    //   priority: 'Medium',
+    //   url: '',
+    //   status: 'todo',
+    //   milliseconds: 1708261200000,
+    //   dateString: '2024-02-19',
+    //   time: '14:00'
+    // }, {
+    //   id: 2,
+    //   name: 'Workout',
+    //   type: 'Default',
+    //   priority: 'High',
+    //   url: '',
+    //   status: 'todo',
+    //   milliseconds: 1708347600000,
+    //   dateString: '2024-02-20',
+    //   time: '15:00'
+    // }, {
+    //   id: 3,
+    //   name: 'Go home',
+    //   type: 'Default',
+    //   priority: 'Low',
+    //   url: '',
+    //   status: 'done',
+    //   milliseconds: 1705669200000,
+    //   dateString: '2024-01-20',
+    //   time: '15:00'
+    // }]));
 
-  const [typeList, setTypeList] = useState([
-    'Default'
-  ])
+  const [events, setEventsToHook] = useState(JSON.parse(localStorage.getItem("events")));
 
-  function removeEvent(id){
-    console.log(id);
-    setEvents(events.filter((element) => element.id !== id ))
+  function setEvents(newEvents){
+    setEventsToHook(newEvents);
+    localStorage.setItem("events", JSON.stringify(newEvents));
   }
 
-  function addEvent(name, milliseconds, dateString, time, url, priority, status, type){
+  console.log(events);
+
+  // const [events, setEvents] = useState([{
+  //   id: 1,
+  //   name: 'Study',
+  //   type: 'Default',
+  //   priority: 'Medium',
+  //   url: '',
+  //   status: 'todo',
+  //   milliseconds: 1708261200000,
+  //   dateString: '2024-02-19',
+  //   time: '14:00'
+  // }, {
+  //   id: 2,
+  //   name: 'Workout',
+  //   type: 'Default',
+  //   priority: 'High',
+  //   url: '',
+  //   status: 'todo',
+  //   milliseconds: 1708347600000,
+  //   dateString: '2024-02-20',
+  //   time: '15:00'
+  // }, {
+  //   id: 3,
+  //   name: 'Go home',
+  //   type: 'Default',
+  //   priority: 'Low',
+  //   url: '',
+  //   status: 'done',
+  //   milliseconds: 1705669200000,
+  //   dateString: '2024-01-20',
+  //   time: '15:00'
+  // }]);
+
+  // const [typeList, setTypeList] = useState([
+  //   'Default'
+  // ])
+
+  const [typeList, setTypeListToHook] = useState(JSON.parse(localStorage.getItem("typeList")) || ['Default']);
+
+  function setTypeList(newTypeList){
+    setTypeListToHook(newTypeList);
+    localStorage.setItem("typeList", JSON.stringify(newTypeList));
+  }
+
+  console.log(typeList);
+
+  function removeEvent(id) {
+    console.log(id);
+    setEvents(events.filter((element) => element.id !== id))
+  }
+
+  function addEvent(name, milliseconds, dateString, time, url, priority, status, type) {
     const id = Math.floor(Math.random() * 1000000)
     setEvents([
       ...events,
@@ -76,7 +126,7 @@ function App() {
 
   return (
     <div className="App">
-      <TabPanel events={events} setEvents={setEvents} removeEvent={removeEvent} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList}/>
+      <TabPanel events={events} setEvents={setEvents} removeEvent={removeEvent} addEvent={addEvent} typeList={typeList} setTypeList={setTypeList} />
       {/* <Switcher setSwitcher={setSwitcher}/>
       {switcher ? <Todolist events={events} setEvents={setEvents}/> : <Calendar events={events} setEvents={setEvents}/>} */}
     </div>
