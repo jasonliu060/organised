@@ -96,8 +96,6 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
     }
   }
 
-  console.log(events)
-
   return (
     <>
       <Grid container columnSpacing={3} rowSpacing={3}>

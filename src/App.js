@@ -63,8 +63,6 @@ function App() {
     localStorage.setItem("events", JSON.stringify(newEvents));
   }
 
-  console.log(events);
-
   // const [events, setEvents] = useState([{
   //   id: 1,
   //   name: 'Study',
@@ -108,10 +106,7 @@ function App() {
     localStorage.setItem("typeList", JSON.stringify(newTypeList));
   }
 
-  console.log(typeList);
-
   function removeEvent(id) {
-    console.log(id);
     setEvents(events.filter((element) => element.id !== id))
   }
 
