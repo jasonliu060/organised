@@ -119,9 +119,9 @@ export default function Eventslist({ events, setEvents, removeEvent, typeList, s
                 onChange={priorityOnChangeHandler}
               >
                 <MenuItem value='all'>All</MenuItem>
-                <MenuItem value='high'>High</MenuItem>
-                <MenuItem value='medium'>Medium</MenuItem>
-                <MenuItem value='low'>Low</MenuItem>
+                <MenuItem value='High'>High</MenuItem>
+                <MenuItem value='Medium'>Medium</MenuItem>
+                <MenuItem value='Low'>Low</MenuItem>
               </Select>
             </FormControl>
             <Box sx={{ mt: 1, height: 54, border: 1, borderColor: '#00000038', borderRadius: 1, display: "inline-block", ':hover': { borderColor: '#000000' } }}>

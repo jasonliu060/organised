@@ -31,7 +31,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
   const [dateString, setDateString] = useState('');
   const [time, setTime] = useState('');
   const [url, setUrl] = useState('');
-  const [priority, setPriority] = useState('medium');
+  const [priority, setPriority] = useState('Medium');
   const [status, setStatus] = useState('todo');
   const [newTypeOption, setNewTypeOption] = useState('');
   const [type, setType] = useState('Default');
@@ -49,7 +49,7 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
     setDateString('');
     setTime('');
     setUrl('');
-    setPriority('medium');
+    setPriority('Medium');
     setType('Default');
   }
 
@@ -178,9 +178,9 @@ export default function FormDialog({ addEvent, typeList, setTypeList }) {
                 label="Priority"
                 onChange={(e) => { setPriority(e.target.value) }}
               >
-                <MenuItem value="high">High</MenuItem>
-                <MenuItem value="medium">Medium</MenuItem>
-                <MenuItem value="low">Low</MenuItem>
+                <MenuItem value="High">High</MenuItem>
+                <MenuItem value="Medium">Medium</MenuItem>
+                <MenuItem value="Low">Low</MenuItem>
               </Select>
             </FormControl>
           </Box>

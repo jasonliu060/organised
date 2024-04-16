@@ -126,7 +126,6 @@ function App() {
         status: status,
       }
     ])
-    console.log(events);
   }
 
 
