@@ -194,9 +194,9 @@ export default function Editeventpopup({ events, setEvents, editingEventId, type
                 label="Priority"
                 onChange={(e) => { setPriority(e.target.value) }}
               >
-                <MenuItem value="high">High</MenuItem>
-                <MenuItem value="medium">Medium</MenuItem>
-                <MenuItem value="low">Low</MenuItem>
+                <MenuItem value="High">High</MenuItem>
+                <MenuItem value="Medium">Medium</MenuItem>
+                <MenuItem value="Low">Low</MenuItem>
               </Select>
             </FormControl>
           </Box>
